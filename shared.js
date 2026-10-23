@@ -725,7 +725,7 @@ function renderLearn(){
   } else {
     /* desktop: trade-room layout — big chart left, order panel right */
     const tr=T('trader'), mult=amtMult(), amt=money(mult), ret=money(mult*1.8), prof=money(mult*.8);
-    const clock=L.phase==='wait'?`<div class="tclock"><div><span>00</span><small>min</small></div><b>:</b><div><span class="${L.left<=2?'hot':''}">0${L.left}</span><small>sec</small></div></div>`:`<div class="tclock idle"><div><span>01</span><small>min</small></div><b>:</b><div><span>00</span><small>sec</small></div></div>`;
+    const clock=L.phase==='wait'?`<div class="tclock"><div><span>00</span><small>min</small></div><b>:</b><div><span class="${L.left<=2?'hot':''}">0${L.left}</span><small>sec</small></div></div>`:`<div class="tclock idle"><div><span>00</span><small>min</small></div><b>:</b><div><span>${L.phase==='result'?'00':'05'}</span><small>sec</small></div></div>`;
     let side;
     if(L.phase==='pick') side=`<div class="updown" data-updown><button class="btn up" data-demo="up" data-ev="demo_trade_placed {track:learn, direction:up}">▲ ${t.up}</button><button class="btn down" data-demo="down" data-ev="demo_trade_placed {track:learn, direction:down}">▼ ${t.down}</button></div><p class="cap tpick">${esc(t.pick)}</p>`;
     else if(L.phase==='wait') side=`<div class="updown"><button class="btn up" disabled>▲ ${t.up}</button><button class="btn down" disabled>▼ ${t.down}</button></div><p class="cap tpick">${L.dir==='up'?'▲ '+t.up:'▼ '+t.down} · ${t.waiting} ${L.left} s</p>`;
