@@ -897,6 +897,27 @@ function drawDemoChart(){
   if(dl){ const d=cur-base; const fav=(dir==='up')===(d>=0); dl.textContent=(phase==='pick'?'XAU/USD · 60 s':(d>=0?'+':'')+d.toFixed(2)+' · '+ui('sinceEntry')); dl.className='dl '+(phase==='pick'?'':fav?'up':'down'); }
 }
 
+
+/* confetti burst for a closed demo trade (canvas, ~1.6 s, skipped with reduced motion) */
+function confetti(originEl){
+  try{ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; }catch(e){}
+  const cv=document.createElement('canvas'); cv.setAttribute('aria-hidden','true');
+  cv.style.cssText='position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:60';
+  document.body.appendChild(cv); const dpr=Math.min(2,devicePixelRatio||1); cv.width=innerWidth*dpr; cv.height=innerHeight*dpr;
+  const c=cv.getContext('2d'); c.scale(dpr,dpr);
+  const r=originEl?originEl.getBoundingClientRect():{left:innerWidth/2-50,top:innerHeight/2,width:100,height:0};
+  const ox=r.left+r.width/2, oy=Math.max(40,r.top+Math.min(r.height,160)/2);
+  const cols=['#8A05FF','#CB3BFF','#D9C2FF','#14C679','#1BD98A','#F2CE6B','#FFFFFF'];
+  const P=Array.from({length:140},()=>{ const a=-Math.PI/2+(Math.random()-.5)*Math.PI*1.1, v=7+Math.random()*9;
+    return {x:ox+(Math.random()-.5)*r.width*.6,y:oy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*6,h:3+Math.random()*5,rot:Math.random()*6.28,vr:(Math.random()-.5)*.35,col:cols[(Math.random()*cols.length)|0],round:Math.random()<.3}; });
+  const t0=performance.now(), D=1700;
+  (function step(t){ const k=(t-t0)/D; c.clearRect(0,0,innerWidth,innerHeight);
+    for(const p of P){ p.vy+=.32; p.vx*=.985; p.vy*=.985; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+      c.save(); c.globalAlpha=Math.max(0,1-Math.max(0,k-.6)/.4); c.translate(p.x,p.y); c.rotate(p.rot); c.fillStyle=p.col;
+      if(p.round){ c.beginPath(); c.arc(0,0,p.h/1.6,0,6.28); c.fill(); } else c.fillRect(-p.w/2,-p.h/2,p.w,p.h); c.restore(); }
+    if(k<1) requestAnimationFrame(step); else cv.remove(); })(t0);
+}
+
 /* ============ render + wiring ============ */
 const frame=$('#frame');
 let moneySeen=false;
@@ -953,7 +974,7 @@ frame.addEventListener('click',e=>{
   if(b.hasAttribute('data-goto-demo')){ ev('lesson_started',{n:1}); const box=$('[data-demo-box]',frame); if(box){ box.scrollIntoView({behavior:'smooth',block:'center'}); } const ud=$('[data-updown]',frame); if(ud){ ud.classList.remove('pulse'); void ud.offsetWidth; ud.classList.add('pulse'); const first=$('button',ud); if(first) setTimeout(()=>first.focus({preventScroll:true}),500); } return; }
   /* learn: demo trade */
   if(b.dataset.demo){ const L=S.learn; L.dir=b.dataset.demo; L.phase='wait'; L.left=5; L.seed=Math.floor(Math.random()*1000)+1; L.result='won'; ev('demo_trade_placed',{track:'learn',direction:L.dir}); render(true);
-    clearInterval(L.timer); L.timer=setInterval(()=>{ L.left--; if(L.left<=0){ clearInterval(L.timer); L.phase='result'; L.left=0; ev('demo_trade_closed',{track:'learn',result:L.result}); render(true); if(L.done===0){ L.done=1; setTimeout(()=>{ L.sheet=true; render(true); },1400); } } else render(true); },1000); return; }
+    clearInterval(L.timer); L.timer=setInterval(()=>{ L.left--; if(L.left<=0){ clearInterval(L.timer); L.phase='result'; L.left=0; ev('demo_trade_closed',{track:'learn',result:L.result}); render(true); if(L.result==='won') confetti($('.tside .tcard',frame)||$('[data-demo-box]',frame)); if(L.done===0){ L.done=1; setTimeout(()=>{ L.sheet=true; render(true); },1400); } } else render(true); },1000); return; }
   if(b.dataset.amt){ const L=S.learn; if(L.phase!=='pick') return; L.amt=Math.max(0,Math.min(AMT_STEPS.length-1,(L.amt||0)+(+b.dataset.amt))); render(true); return; }
   if(b.hasAttribute('data-demo-again')){ const L=S.learn; L.phase='pick'; L.dir=null; L.result=null; L.left=5; render(true); return; }
   /* cards */
