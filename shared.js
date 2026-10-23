@@ -889,7 +889,7 @@ frame.addEventListener('submit',e=>{
   const msgs={en:'Enter a valid email',id:'Masukkan email yang valid',ms:'Masukkan e-mel yang sah',tl:'Ilagay ang valid na email',pt:'Digite um e-mail válido',es:'Escribe un correo válido'};
   if(!validEmail(v)){ err.textContent=msgs[S.lang]||msgs.en; err.hidden=false; inp.focus(); return; }
   err.hidden=true; saveContact(v);
-  const u=new URL(signupUrl()); u.searchParams.set('email',v); u.searchParams.set('flow','registration');
+  const u=new URL(signupUrl()); u.searchParams.set('email',v);
   ev('landing_signup_submitted',{track:S.track,position:'sheet'});
   btn.disabled=true; location.href=u.toString();
 });
