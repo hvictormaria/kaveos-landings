@@ -10,7 +10,8 @@ Static landings, no build step. `shared.css` + `shared.js` hold all five tracks;
 | /learn/ | Учебник | `C.learn` |
 | /kocok/ | Kocok | `C.shake` |
 
-- Language: `?lang=en|id`, otherwise browser language (`id-*` → ID). The EN/ID button in the header switches and rewrites the URL.
+- Geo routes: `/id/`, `/my/`, `/ph/`, `/br/`, `/mx/`, `/ng/` + track (`/my/trade/`). Root `/trade/` etc. = international EN with USD. The `GEO` table at the top of `shared.js` holds language(s), currency ladder and payment methods per geo; amounts in copy are tokens (`{MIN_DEP}`, `{AMT}`, `{AMT_RET}` …) filled per geo. Figures are a rounded $10 / $1 / $18 ladder — the cashier owns the real values.
+- Languages: EN, ID, MS, TL (Taglish), PT-BR, ES-MX, plus an `en_ng` pack with Nigerian examples. `?lang=` picks within the geo's languages; the header button cycles them. Translations were machine-drafted and need a native read before traffic.
 - Brand: `BRAND` map at the top of `shared.js`. `trade` and `learn` are unbranded: no wordmark in header/footer/share cards, legal line from `UNBRANDED`, own sign-up/help URLs under `tracks` in `config.js` (fill the REPLACE-ME values before traffic).
 - Sign-up / help URLs: `config.js`. Every CTA appends `track`, `lang` and all `utm_*` from the landing URL.
 - Analytics: events go to `window.dataLayer` (GTM) and to `posthog.capture` when PostHog is on the page; `?debug=1` logs them to the console. Names match the ТЗ.
