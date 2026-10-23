@@ -586,3 +586,15 @@ table.cmp td.same{color:var(--text-primary)}
 .tcard .explain{padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(217,194,255,.14);font-size:14px;line-height:1.45}
 .tcard .explain b{display:block;font-family:var(--font-num);font-size:18px;margin-bottom:4px}
 .tcard .explain.won b{color:#14C679}.tcard .explain.lost b{color:#FF646C}
+
+/* Learn: course progress as a 5-segment bar under the CTA */
+.lprog{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.lbar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.lbar i{display:block;height:6px;border-radius:999px;background:rgba(217,194,255,.14)}
+.lbar i.on{background:linear-gradient(90deg,#9D2BFF,#CB3BFF);box-shadow:0 0 10px rgba(138,5,255,.55)}
+.lprog span{font-size:13px;color:var(--text-secondary)}
+.lprog b{color:var(--text-primary)}
+.lhead-r{align-items:stretch!important;width:260px;margin-right:24px}
+.lhead-r .btn{width:100%!important;min-width:0!important}
+.lhead-r .lprog{margin-top:12px}
+@media (max-width:899px){ .land[data-track="learn"] .lprog{max-width:100%} }

@@ -713,8 +713,7 @@ function renderLearn(){
     <div class="explain ${L.result}"><b>${esc(t[L.result][0])}</b>${esc(t[L.result][1])}</div>
     <div style="margin-top:10px"><button class="btn secondary" data-demo-again>${esc(t.again)}</button></div>`;
   const demo=`<div class="demo" data-demo-box><div class="top"><div><b>${esc(t.demoAsset)}</b> <span class="cap">${t.demoPair}</span></div><span class="cap">${esc(t.demoLen)}</span></div>${chart}${body}</div><p class="cap" style="margin-top:10px">${esc(t.demoLine)}</p>`;
-  const circ=2*Math.PI*16, prog=L.done/5;
-  const ring=`<div class="ring"><svg viewBox="0 0 40 40"><circle class="bg" cx="20" cy="20" r="16"/><circle class="fg" cx="20" cy="20" r="16" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-prog)}"/></svg><span><b class="num" style="color:var(--text-primary)">${L.done}</b> ${esc(t.progress)}</span></div>`;
+  const ring=`<div class="lprog" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="${L.done}"><div class="lbar">${[0,1,2,3,4].map(i=>`<i class="${i<L.done?'on':''}"></i>`).join('')}</div><span><b class="num">${L.done}</b> ${esc(t.progress)}</span></div>`;
   const h1=esc(t.h1).replace(/\*(.+?)\*/,'<em>$1</em>');
   const ctaLabel=L.done>0?t.cta2:t.cta;
   const ctaBtn=`<button class="btn brand" ${L.done>0?'data-open-sheet':'data-goto-demo'} data-ev="${L.done>0?'landing_cta_clicked {track:learn, position:hero} → signup':'lesson_started {n:1} → scroll to Up/Down'}">${esc(ctaLabel)}</button>`;
