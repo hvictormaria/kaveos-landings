@@ -46,6 +46,12 @@ location = / { return 404; }
 - HTTPS обязателен (Meta Pixel и GTM не работают по http).
 - Никаких `X-Frame-Options: DENY` не требуется, но `Content-Security-Policy` должен пропускать `googletagmanager.com`, `connect.facebook.net`, `fonts.googleapis.com`, `fonts.gstatic.com`.
 
+## Что нужно от продукта (kaveos.com)
+Лендинг передаёт в регистрацию `email=<почта>` и `flow=registration` (плюс `track`, `lang`, `geo`, `utm_*`). Сейчас `/markets?continueByUrl=/markets` при прямом заходе открывает ленту **без** модалки — она появляется только по клику на Sign Up, а `/auth` открывает вкладку Login. Чтобы пользователь с лендинга видел регистрацию с уже заполненной почтой, продукту нужно:
+1. при `flow=registration` открывать auth-модалку сразу на вкладке Registration;
+2. читать `email` из query и предзаполнять поле;
+3. сохранять `track`/`geo`/`utm_*` в профиль (источник регистрации).
+
 ## Что заполнить перед трафиком (`config.js`)
 - `tracking.branded` / `tracking.unbranded` — GTM ID (предпочтительно) или GA4 + Ads + Meta Pixel ID. Пусто = тег не грузится.
 - `signup` / `help` (брендовые) и `tracks.trader|learn.signup|help` (бесбрендовые) — адреса CTA. Кнопка добавляет `track`, `lang`, `geo`, `utm_*`, при заполненном поле — `contact`.

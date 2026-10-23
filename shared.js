@@ -488,6 +488,9 @@ const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;
 function ev(name, props){ const p=Object.assign({},props||{}); window.dataLayer=window.dataLayer||[]; window.dataLayer.push(Object.assign({event:name},p)); if(window.posthog&&posthog.capture) try{posthog.capture(name,p);}catch(e){} if(location.hostname==='localhost'||/[?&]debug=1/.test(location.search)) console.log('[event]',name,p); }
 function utm(){ try{ const u=new URLSearchParams(location.search); const o={}; for(const [k,v] of u) if(/^utm_/.test(k)) o[k]=v; return o; }catch(e){ return {}; } }
 function signupUrl(){ const u=new URL(cfgFor('signup')||'https://example.invalid/signup'); u.searchParams.set('track',S.track); u.searchParams.set('lang',S.lang); u.searchParams.set('geo',S.geo); for(const [k,v] of Object.entries(utm())) u.searchParams.set(k,v); return u.toString(); }
+function savedContact(){ try{ return localStorage.getItem('kv_contact')||''; }catch(e){ return ''; } }
+function saveContact(v){ try{ if(v) localStorage.setItem('kv_contact',v); }catch(e){} }
+function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
 function helpUrl(){ const u=new URL(cfgFor('help')||'https://example.invalid/help'); u.searchParams.set('track',S.track); return u.toString(); }
 function fmt(s,o){ return s.replace(/\{(\w+)\}/g,(_,k)=>o[k]); }
 const icons = {
@@ -553,8 +556,9 @@ function faq(items){
 function sheet(track, title, cap, placeholder, btn, pos, top=''){
   return `<div class="overlay" data-overlay><div class="sheet"><div class="grab"></div><button class="x" data-close aria-label="Close">×</button>
     ${top}<h3>${esc(title)}</h3><p class="cap">${esc(cap)}</p>
-    <input class="input" id="reg-${track}" placeholder="${esc(placeholder)}" inputmode="email" autocomplete="off">
-    <button class="btn brand" data-reg data-ev="landing_cta_clicked {track:${track}, position:${pos}} → signup?track=${track}&utm_*">${esc(btn)}</button>
+    <form data-regform novalidate><input class="input" id="reg-${track}" type="email" name="email" placeholder="${esc(placeholder)}" inputmode="email" autocomplete="email" enterkeyhint="go" value="${esc(savedContact())}">
+    <p class="cap" data-regerr hidden style="color:var(--bg-no);margin:-4px 0 10px"></p>
+    <button class="btn brand" type="submit" data-reg data-ev="landing_cta_clicked {track:${track}, position:${pos}} → signup?track=${track}&email=…&utm_*">${esc(btn)}</button></form>
 </div></div>`;
 }
 
@@ -878,13 +882,24 @@ function updateSticky(){
 window.addEventListener('scroll',updateSticky,{passive:true});
 window.addEventListener('resize',()=>drawDemoChart());
 
+frame.addEventListener('submit',e=>{
+  const f=e.target.closest('[data-regform]'); if(!f) return; e.preventDefault();
+  const inp=f.querySelector('input'), err=f.querySelector('[data-regerr]'), btn=f.querySelector('[data-reg]');
+  const v=(inp.value||'').trim();
+  const msgs={en:'Enter a valid email',id:'Masukkan email yang valid',ms:'Masukkan e-mel yang sah',tl:'Ilagay ang valid na email',pt:'Digite um e-mail válido',es:'Escribe un correo válido'};
+  if(!validEmail(v)){ err.textContent=msgs[S.lang]||msgs.en; err.hidden=false; inp.focus(); return; }
+  err.hidden=true; saveContact(v);
+  const u=new URL(signupUrl()); u.searchParams.set('email',v); u.searchParams.set('flow','registration');
+  ev('landing_signup_submitted',{track:S.track,position:'sheet'});
+  btn.disabled=true; location.href=u.toString();
+});
 frame.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   if(b.hasAttribute('data-lang-toggle')){ const ls=(GEO[S.geo]||GEO.en).langs; S.lang=ls[(ls.indexOf(S.lang)+1)%ls.length]; try{ const u=new URL(location.href); u.searchParams.set('lang',S.lang); history.replaceState(null,'',u); document.documentElement.lang=S.lang; }catch(e){} render(true); return; }
   if(b.hasAttribute('data-help')){ ev('landing_help_clicked',{track:S.track}); window.open(helpUrl(),'_blank','noopener'); return; }
   if(b.hasAttribute('data-close')){ S[S.track].sheet=false; S[S.track].share=false; render(true); return; }
   if(b.hasAttribute('data-open-sheet')){ ev('landing_cta_clicked',{track:S.track,position:(b.dataset.ev.match(/position:(\w+)/)||[])[1]}); S[S.track].sheet=true; render(true); return; }
-  if(b.hasAttribute('data-reg')){ const inp=$('input',b.parentElement); const u=new URL(signupUrl()); if(inp&&inp.value.trim()) u.searchParams.set('contact',inp.value.trim()); b.disabled=true; location.href=u.toString(); return; }
+  if(b.hasAttribute('data-reg')){ return; } /* handled by the submit listener below */
   if(b.dataset.tab){ S.game.tab=b.dataset.tab; render(true); return; }
   if(b.dataset.ans){ // game hero
     const g=S.game; g.answered[g.idx]=b.dataset.ans; ev('landing_cta_clicked',{track:'game',position:'hero',answer:b.dataset.ans}); render(true);

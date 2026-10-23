@@ -6,12 +6,13 @@ window.KAVEOS_CONFIG = {
   // landing_money_block_viewed, quiz_answered, quiz_completed, demo_trade_placed, demo_trade_closed, lesson_started,
   // stick_shaken, stick_picked, stick_answered, stick_share_clicked — all with track, lang, geo where relevant.
   tracking: {
-    branded:   { gtm: '', ga4: '', ads: '', meta: '' },   // play / gut / kocok on *.kaveos.com
+    branded:   { gtm: '', ga4: '', ads: '', meta: '1619488042599515' },   // play / gut / kocok on *.kaveos.com (Meta dataset from kaveos.com)
     unbranded: { gtm: '', ga4: '', ads: '', meta: '' }    // trade / learn on the separate domain
   },
   // Footer legal line. Empty = the line is not shown.
   legal: { branded: '', unbranded: '', company: '' },  // company shows in 'Who we are' on /trade
-  signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets',
+  // Opens the Registration tab in the auth modal (same link as the site's own Sign Up button).
+  signup: 'https://kaveos.com/markets?continueByUrl=%2Fmarkets',
   help:   'https://kaveos.com/information',
   tracks: {
     // Unbranded trading tracks: straight to registration (per Maria, 2026-10-23).
