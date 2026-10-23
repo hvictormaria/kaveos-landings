@@ -79,7 +79,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 @keyframes blink{50%{opacity:.35}}
 .q{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.015em;margin-bottom:14px;text-wrap:balance}
 .yn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.after{min-height:20px;margin-top:12px;font-size:13px;font-weight:600;color:var(--text-primary);opacity:0;transition:opacity .25s}
+.after{margin-top:0;max-height:0;overflow:hidden;font-size:13px;font-weight:600;color:var(--text-primary);opacity:0;transition:opacity .25s,max-height .25s,margin-top .25s}
+.after.show{margin-top:12px;max-height:40px}
 .after.show{opacity:1}
 .cardstack{position:relative}
 .cardstack .card{animation:slidein .35s ease}
@@ -532,3 +533,9 @@ table.cmp td.same{color:var(--text-primary)}
 /* trader quote: keep amount + label on one line each */
 .quote{flex-wrap:wrap;gap:6px 14px}
 .quote span{white-space:nowrap}
+
+/* hero: breathing room between headline and the live card on phones (desktop uses the hero2 grid) */
+@media (max-width:899px){
+  .land .sec>.hero2>div+div, .land .sec>div:not(.hero2)>h1+div, .land .sec>div>div+div{margin-top:20px}
+  .land[data-track="game"] h1{margin-bottom:4px}
+}
