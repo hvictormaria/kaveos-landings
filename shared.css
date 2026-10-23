@@ -544,7 +544,7 @@ table.cmp td.same{color:var(--text-primary)}
 .lhead{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
 .lhead-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:0 0 auto}
 .lhead-r .ring{margin-top:8px}
-.troom{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;margin-top:36px;align-items:start}
+.troom{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;margin-top:36px;align-items:stretch}
 .tpanel{background:rgba(255,255,255,.03);border:1px solid rgba(217,194,255,.14);border-radius:24px;padding:22px 22px 10px;min-width:0}
 .thead{display:flex;align-items:center;gap:14px}
 .tava{width:52px;height:52px;border-radius:999px;background:radial-gradient(circle at 35% 30%,#FFE9A8,#D4A33A 55%,#8A6414);display:flex;align-items:center;justify-content:center;font:800 16px var(--font-num);color:#2B1C05;flex:0 0 auto;box-shadow:0 0 0 3px rgba(255,255,255,.06)}
@@ -564,8 +564,8 @@ table.cmp td.same{color:var(--text-primary)}
 .tclock small{display:block;margin-top:4px;font-size:11px;color:var(--text-secondary)}
 .tclock.idle span{color:var(--text-secondary)}
 .chartbox.big{background:transparent;border:0;border-radius:0;margin:0 -8px;overflow:hidden;min-width:0}
-.chartbox.big canvas.chart{display:block;width:100%;height:400px}
-.tside{display:flex;flex-direction:column;gap:14px}
+.chartbox.big canvas.chart{display:block;width:100%;height:220px}
+.tside{display:flex;flex-direction:column;gap:14px;justify-content:space-between}
 .tcard{background:rgba(255,255,255,.04);border:1px solid rgba(217,194,255,.16);border-radius:24px;padding:16px}
 .stepper{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;gap:8px;background:rgba(0,0,0,.25);border:1px solid rgba(217,194,255,.12);border-radius:16px;padding:6px;text-align:center}
 .stepper button{height:52px;border-radius:12px;border:1px solid rgba(217,194,255,.18);background:rgba(255,255,255,.05);color:var(--text-primary);font-size:24px;line-height:1}
@@ -582,7 +582,7 @@ table.cmp td.same{color:var(--text-primary)}
 .tcard .explain{margin-top:0}
 .tbadges{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(217,194,255,.14);border-radius:20px;padding:14px 16px;font-size:14px;line-height:1.4}
 .tb-ic{width:28px;height:28px;border-radius:999px;background:#fff;color:#0B0614;display:flex;align-items:center;justify-content:center;font:800 14px var(--font-num);flex:0 0 auto}
-@media (max-width:1100px){ .troom{grid-template-columns:minmax(0,1fr) 300px} .chartbox.big canvas.chart{height:340px} }
+@media (max-width:1100px){ .troom{grid-template-columns:minmax(0,1fr) 300px} .chartbox.big canvas.chart{height:210px} }
 .tcard .explain{padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(217,194,255,.14);font-size:14px;line-height:1.45}
 .tcard .explain b{display:block;font-family:var(--font-num);font-size:18px;margin-bottom:4px}
 .tcard .explain.won b{color:#14C679}.tcard .explain.lost b{color:#FF646C}
