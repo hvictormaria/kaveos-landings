@@ -688,6 +688,12 @@ function renderTrader(){
 }
 
 /* ============ LEARN ============ */
+const AMT_STEPS=[1,2,5,10];
+function money(mult){ const g=GEO[S.geo]||GEO.en; const m=String(g.AMT).match(/^(\D*?)([\d.,]+)(\D*)$/); if(!m) return g.AMT;
+  const sep=/\d[.,]\d{3}\b/.test(m[2])?m[2].replace(/\d/g,'')[0]:(S.geo==='id'?'.':',');
+  const n=Math.round(parseInt(m[2].replace(/[.,]/g,''),10)*mult); return m[1]+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,sep)+m[3]; }
+function amtMult(){ return AMT_STEPS[S.learn.amt||0]; }
+
 function demoPath(dir,seed){
   const r=mulberry(seed); let y=60; const pts=[]; const n=24;
   for(let i=0;i<=n;i++){ const drift=(dir==='up'?-1:1)*(i/n)*22; y=60+drift+(r()-.5)*14; pts.push([i/n*300, Math.max(12,Math.min(108,y))]); }
@@ -702,8 +708,8 @@ function renderLearn(){
   let body='';
   if(L.phase==='pick') body=`<div class="status"><span>${esc(t.pick)}</span></div><div class="updown"><button class="btn up" data-demo="up" data-ev="demo_trade_placed {track:learn, direction:up}">▲ ${t.up}</button><button class="btn down" data-demo="down" data-ev="demo_trade_placed {track:learn, direction:down}">▼ ${t.down}</button></div>`;
   if(L.phase==='pick') body=body.replace('<div class="updown">','<div class="updown" data-updown>');
-  else if(L.phase==='wait') body=`<div class="status"><span>${L.dir==='up'?'▲ '+t.up:'▼ '+t.down} · ${t.demoAmt} <b class="num">${geoFill('{AMT}')}</b></span><span>${t.waiting} <b class="num">${L.left} s</b></span></div><div class="updown"><button class="btn up" disabled>▲ ${t.up}</button><button class="btn down" disabled>▼ ${t.down}</button></div>`;
-  else body=`<div class="status"><span>${L.dir==='up'?'▲ '+t.up:'▼ '+t.down} · ${t.demoAmt} <b class="num">${geoFill('{AMT}')}</b></span><span class="num">${L.result==='won'?'+'+geoFill('{RET}'):geoFill('{AMT_LOSS}')}</span></div>
+  else if(L.phase==='wait') body=`<div class="status"><span>${L.dir==='up'?'▲ '+t.up:'▼ '+t.down} · ${t.demoAmt} <b class="num">${money(amtMult())}</b></span><span>${t.waiting} <b class="num">${L.left} s</b></span></div><div class="updown"><button class="btn up" disabled>▲ ${t.up}</button><button class="btn down" disabled>▼ ${t.down}</button></div>`;
+  else body=`<div class="status"><span>${L.dir==='up'?'▲ '+t.up:'▼ '+t.down} · ${t.demoAmt} <b class="num">${money(amtMult())}</b></span><span class="num">${L.result==='won'?'+'+money(amtMult()*.8):'−'+money(amtMult())}</span></div>
     <div class="explain ${L.result}"><b>${esc(t[L.result][0])}</b>${esc(t[L.result][1])}</div>
     <div style="margin-top:10px"><button class="btn secondary" data-demo-again>${esc(t.again)}</button></div>`;
   const demo=`<div class="demo" data-demo-box><div class="top"><div><b>${esc(t.demoAsset)}</b> <span class="cap">${t.demoPair}</span></div><span class="cap">${esc(t.demoLen)}</span></div>${chart}${body}</div><p class="cap" style="margin-top:10px">${esc(t.demoLine)}</p>`;
@@ -711,9 +717,41 @@ function renderLearn(){
   const ring=`<div class="ring"><svg viewBox="0 0 40 40"><circle class="bg" cx="20" cy="20" r="16"/><circle class="fg" cx="20" cy="20" r="16" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-prog)}"/></svg><span><b class="num" style="color:var(--text-primary)">${L.done}</b> ${esc(t.progress)}</span></div>`;
   const h1=esc(t.h1).replace(/\*(.+?)\*/,'<em>$1</em>');
   const ctaLabel=L.done>0?t.cta2:t.cta;
-  const hero=`<section class="sec wrap"><div class="${wide?'hero2':''}"><div><div class="eyebrow">${icons.spark}${ui('lesson1')}</div><h1>${h1}</h1><p class="muted" style="margin-top:10px;font-size:15px">${esc(t.sub)}</p>
-    <div style="margin-top:16px"><button class="btn brand" ${L.done>0?'data-open-sheet':'data-goto-demo'} data-ev="${L.done>0?'landing_cta_clicked {track:learn, position:hero} → signup':'lesson_started {n:1} → scroll to Up/Down'}">${esc(ctaLabel)}</button></div>${ring}</div>
-    <div style="margin-top:${wide?0:20}px">${demo}</div></div></section>`;
+  const ctaBtn=`<button class="btn brand" ${L.done>0?'data-open-sheet':'data-goto-demo'} data-ev="${L.done>0?'landing_cta_clicked {track:learn, position:hero} → signup':'lesson_started {n:1} → scroll to Up/Down'}">${esc(ctaLabel)}</button>`;
+  let hero;
+  if(!wide){
+    hero=`<section class="sec wrap"><div><div><div class="eyebrow">${icons.spark}${ui('lesson1')}</div><h1>${h1}</h1><p class="muted" style="margin-top:10px;font-size:15px">${esc(t.sub)}</p>
+    <div style="margin-top:16px">${ctaBtn}</div>${ring}</div>
+    <div style="margin-top:20px">${demo}</div></div></section>`;
+  } else {
+    /* desktop: trade-room layout — big chart left, order panel right */
+    const tr=T('trader'), mult=amtMult(), amt=money(mult), ret=money(mult*1.8), prof=money(mult*.8);
+    const clock=L.phase==='wait'?`<div class="tclock"><div><span>00</span><small>min</small></div><b>:</b><div><span class="${L.left<=2?'hot':''}">0${L.left}</span><small>sec</small></div></div>`:`<div class="tclock idle"><div><span>01</span><small>min</small></div><b>:</b><div><span>00</span><small>sec</small></div></div>`;
+    let side;
+    if(L.phase==='pick') side=`<div class="updown" data-updown><button class="btn up" data-demo="up" data-ev="demo_trade_placed {track:learn, direction:up}">▲ ${t.up}</button><button class="btn down" data-demo="down" data-ev="demo_trade_placed {track:learn, direction:down}">▼ ${t.down}</button></div><p class="cap tpick">${esc(t.pick)}</p>`;
+    else if(L.phase==='wait') side=`<div class="updown"><button class="btn up" disabled>▲ ${t.up}</button><button class="btn down" disabled>▼ ${t.down}</button></div><p class="cap tpick">${L.dir==='up'?'▲ '+t.up:'▼ '+t.down} · ${t.waiting} ${L.left} s</p>`;
+    else side=`<div class="explain ${L.result}"><b>${esc(t[L.result][0])}</b>${esc(t[L.result][1])}</div><button class="btn secondary" data-demo-again style="width:100%;margin-top:12px">${esc(t.again)}</button>`;
+    const locked=L.phase!=='pick';
+    hero=`<section class="sec wrap">
+      <div class="lhead"><div><div class="eyebrow">${icons.spark}${ui('lesson1')}</div><h1>${h1}</h1><p class="muted" style="margin-top:12px;font-size:17px;max-width:52ch">${esc(t.sub)}</p></div>
+        <div class="lhead-r">${ctaBtn}${ring}</div></div>
+      <div class="troom" data-demo-box>
+        <div class="tpanel">
+          <div class="thead"><span class="tava">Au</span><div><div class="ttl">${esc(t.demoAsset)} <span>${t.demoPair}</span></div><div class="tmeta">${esc(t.demoLen)}</div></div><span class="badge live">Live</span></div>
+          <div class="tsub"><div class="tquote"><span class="px" data-px>2 648.30</span><span class="dl" data-dl>XAU/USD · 60 s</span></div>${clock}</div>
+          <div class="chartbox big"><canvas class="chart" data-democanvas data-wide="1" data-pos="${pos}" data-dir="${L.dir||''}" data-result="${L.result||''}" data-seed="${L.seed||3}" data-phase="${L.phase}"></canvas></div>
+        </div>
+        <aside class="tside">
+          <div class="tcard">
+            <div class="stepper"><button data-amt="-1" ${locked||!(L.amt>0)?'disabled':''} aria-label="−">−</button><div><span class="cap">${esc(t.demoAmt)}</span><b class="num">${esc(amt)}</b></div><button data-amt="1" ${locked||(L.amt||0)>=AMT_STEPS.length-1?'disabled':''} aria-label="+">+</button></div>
+            <div class="tret"><span>${esc(tr.quoteRet)}</span><b class="num">${esc(ret)}</b></div>
+            <div class="trow"><span>${esc(tr.quotePay)}</span><span class="num">+${esc(prof)}</span></div>
+            ${side}
+          </div>
+          <div class="tbadges"><span class="tb-ic">%</span><span>${esc(t.demoLine)}</span></div>
+        </aside>
+      </div></section>`;
+  }
   const course=`<section class="sec wrap"><h2>${esc(t.courseTitle)}</h2><div class="lessons">${t.lessons.map((l,i)=>`<div class="lesson"><div class="n ${i<L.done?'done':''}">${i+1}</div><div><div class="t">${esc(l[0])}${l[3]?`<span class="must">${t.must}</span>`:''}</div><div class="d">${esc(l[1])}</div></div><div class="dur">${l[2]}</div></div>`).join('')}</div></section>`;
   const cmp=`<section class="sec wrap"><div class="money" data-money data-ev="landing_money_block_viewed {track:learn}"><h2>${esc(t.cmpTitle)}</h2><table class="cmp"><thead><tr>${t.cmpCols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${t.cmp.map(r=>`<tr><td>${esc(r[0])}</td><td class="${r[1]===r[2]?'same':''}">${esc(r[1])}</td><td class="${r[1]===r[2]?'same':''}">${esc(r[2])}</td></tr>`).join('')}</tbody></table></div></section>`;
   const terms=`<section class="sec wrap"><h2>${esc(t.termsTitle)}</h2><div class="terms">${t.terms.map(([k,v])=>`<div><b>${esc(k)}</b><p>${esc(v)}</p></div>`).join('')}</div></section>`;
@@ -818,7 +856,7 @@ function drawDemoChart(){
   const live=[]; if(phase!=='pick'){ const want=(result==='won'?dir:(dir==='up'?'down':'up')); let lv=base, lm=0; const M=24; for(let i=1;i<=M;i++){ const drift=(want==='up'?1:-1)*(i/M)*2.4; lm=lm*.6+(r()-.5)*.6; lv=base+drift+lm; live.push(lv); } }
   const all=hist.concat(live.slice(0,Math.max(0,Math.round(live.length*pos))));
   const lo=Math.min(...hist,...live,base)-.6, hi=Math.max(...hist,...live,base)+.6;
-  const TOP=64, BOT=18; const y=val=>H-BOT-((val-lo)/(hi-lo))*(H-TOP-BOT);
+  const WIDE=cv.dataset.wide==='1'; const TOP=WIDE?18:64, BOT=WIDE?34:18; const y=val=>H-BOT-((val-lo)/(hi-lo))*(H-TOP-BOT);
   const xAt=i=>i<N? (i/(N-1))*entryX : entryX+((i-N+1)/live.length)*(expX-entryX);
   c.clearRect(0,0,W,H);
   // grid
@@ -826,10 +864,13 @@ function drawDemoChart(){
   // price labels on the right
   c.fillStyle='#6b6b6b'; c.font='600 10px "Space Grotesk", monospace'; c.textAlign='right';
   const curVal=all[all.length-1], curY=y(curVal);
-  const entryY=y(base); for(let g=0;g<=4;g++){ const val=hi-(hi-lo)*g/4, gy=TOP+(H-TOP-BOT)*g/4+3; if(Math.abs(gy-curY)<20 || (phase!=='pick'&&Math.abs(gy-entryY-3)<12)) continue; c.fillText(val.toFixed(2), W-6, gy); }
+  const entryY=y(base); for(let g=0;g<=4;g++){ const val=hi-(hi-lo)*g/4, gy=TOP+(H-TOP-BOT)*g/4+3; if(Math.abs(gy-curY)<22 || (phase!=='pick'&&Math.abs(gy-entryY-3)<12)) continue; c.fillText(val.toFixed(2), W-6, gy); }
   // expiry line
   c.setLineDash([3,4]); c.strokeStyle='rgba(255,255,255,.25)'; c.beginPath(); c.moveTo(expX+.5,8); c.lineTo(expX+.5,H-10); c.stroke(); c.setLineDash([]);
-  c.fillStyle='#878787'; c.font='700 9px Manrope, sans-serif'; c.textAlign='center'; c.fillText('EXPIRY', expX, H-2);
+  c.fillStyle='#878787'; c.font='700 9px Manrope, sans-serif'; c.textAlign='center'; if(WIDE){ c.textAlign='right'; c.fillText('EXPIRY', expX-6, 12); } else c.fillText('EXPIRY', expX, H-2);
+  if(WIDE){ c.fillStyle='#6b6b6b'; c.font='600 11px "Space Grotesk", monospace'; c.textAlign='center';
+    [['−3:00',0],['−2:00',1/3],['−1:00',2/3],['0:00',1]].forEach(([l,f])=>c.fillText(l, Math.max(18,f*entryX), H-10)); c.fillText('+1:00', expX, H-10);
+    c.strokeStyle='rgba(61,61,61,.35)'; c.setLineDash([2,6]); [1/3,2/3].forEach(f=>{ c.beginPath(); c.moveTo(f*entryX+.5,TOP); c.lineTo(f*entryX+.5,H-BOT); c.stroke(); }); c.setLineDash([]); }
   // path
   const path=new Path2D(); all.forEach((val,i)=>{ const px=xAt(i), py=y(val); if(i===0) path.moveTo(px,py); else { const pp=[xAt(i-1),y(all[i-1])]; const cx=(pp[0]+px)/2; path.bezierCurveTo(cx,pp[1],cx,py,px,py); } });
   const lastX=xAt(all.length-1), lastY=y(all[all.length-1]);
@@ -914,6 +955,7 @@ frame.addEventListener('click',e=>{
   /* learn: demo trade */
   if(b.dataset.demo){ const L=S.learn; L.dir=b.dataset.demo; L.phase='wait'; L.left=5; L.seed=Math.floor(Math.random()*1000)+1; L.result='won'; ev('demo_trade_placed',{track:'learn',direction:L.dir}); render(true);
     clearInterval(L.timer); L.timer=setInterval(()=>{ L.left--; if(L.left<=0){ clearInterval(L.timer); L.phase='result'; L.left=0; ev('demo_trade_closed',{track:'learn',result:L.result}); render(true); if(L.done===0){ L.done=1; setTimeout(()=>{ L.sheet=true; render(true); },1400); } } else render(true); },1000); return; }
+  if(b.dataset.amt){ const L=S.learn; if(L.phase!=='pick') return; L.amt=Math.max(0,Math.min(AMT_STEPS.length-1,(L.amt||0)+(+b.dataset.amt))); render(true); return; }
   if(b.hasAttribute('data-demo-again')){ const L=S.learn; L.phase='pick'; L.dir=null; L.result=null; L.left=5; render(true); return; }
   /* cards */
   if(b.dataset.deck!==undefined){ const K=S.cards; K.deck=+b.dataset.deck; K.picked=null; K.answered=null; render(true); return; }
