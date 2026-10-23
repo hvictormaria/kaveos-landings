@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "headers": [
+    { "source": "/config.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
+    { "source": "/(shared|tags).(js|css)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }] },
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+    ]}
+  ],
+  "redirects": [
+    { "source": "/", "destination": "/trade/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/:geo(id|my|ph|br|mx|ng)/:track(play|gut|kocok)/:rest*", "destination": "/404.html" },
+    { "source": "/:track(play|gut|kocok)/:rest*", "destination": "/404.html" },
+    { "source": "/index.html", "destination": "/404.html" }
+  ]
+}

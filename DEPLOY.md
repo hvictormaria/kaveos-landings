@@ -7,9 +7,12 @@
 | Хост | Что отдаём | Корень |
 |---|---|---|
 | **go.kaveos.com** | брендовые треки `play`, `gut`, `kocok` для всех гео | этот репозиторий целиком |
-| **отдельный бесбрендовый домен** (имя — у Maria после покупки) | `trade`, `learn` для всех гео | этот же репозиторий |
+| **Vercel** (бесбрендовый хост, домен подключается в Vercel → Domains) | `trade`, `learn` для всех гео | этот же репозиторий; `vercel.json` закрывает play/gut/kocok и корень, `/` → `/trade/` |
 
 Оба хоста отдают одну и ту же папку. Разница — только в том, какие пути открыты наружу (ниже). Так одно изменение в `shared.js` попадает на оба.
+
+## Vercel (бесбрендовые треки)
+Проект импортируется из GitHub `hvictormaria/kaveos-landings` (или GitLab), Framework Preset = Other, без build-команды, Output = корень. `vercel.json` уже в репозитории: отдаёт только `*/trade/` и `*/learn/`, остальное → 404, корень → `/trade/`. Кастомный домен: Vercel → Settings → Domains, DNS по подсказке Vercel (A 76.76.21.21 или CNAME cname.vercel-dns.com). Для этого хоста в `config.js` действует `tracking.unbranded` и `tracks.trader|learn` — отдельный пиксель/GA.
 
 ## Пути
 
