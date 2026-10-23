@@ -40,12 +40,12 @@ function geoCopy(obj){ if(typeof obj==='string') return geoFill(obj); if(Array.i
 
 /* per-language UI words used outside the copy packs */
 const UI={
-  en:{yes:'Yes',no:'No',gut:'Gut check',lesson1:'Lesson 1 · free',locale:'en-US'},
-  id:{yes:'Ya',no:'Nggak',gut:'Tes insting',lesson1:'Pelajaran 1 · gratis',locale:'id-ID'},
-  ms:{yes:'Ya',no:'Tak',gut:'Uji naluri',lesson1:'Pelajaran 1 · percuma',locale:'ms-MY'},
-  tl:{yes:'Oo',no:'Hindi',gut:'Gut check',lesson1:'Lesson 1 · libre',locale:'en-PH'},
-  pt:{yes:'Sim',no:'Não',gut:'Teste de intuição',lesson1:'Aula 1 · grátis',locale:'pt-BR'},
-  es:{yes:'Sí',no:'No',gut:'Prueba tu intuición',lesson1:'Lección 1 · gratis',locale:'es-MX'}
+  en:{yes:'Yes',no:'No',gut:'Gut check',lesson1:'Lesson 1 · free',locale:'en-US',sinceEntry:'since entry'},
+  id:{yes:'Ya',no:'Nggak',gut:'Tes insting',lesson1:'Pelajaran 1 · gratis',locale:'id-ID',sinceEntry:'sejak entry'},
+  ms:{yes:'Ya',no:'Tak',gut:'Uji naluri',lesson1:'Pelajaran 1 · percuma',locale:'ms-MY',sinceEntry:'sejak entry'},
+  tl:{yes:'Oo',no:'Hindi',gut:'Gut check',lesson1:'Lesson 1 · libre',locale:'en-PH',sinceEntry:'mula entry'},
+  pt:{yes:'Sim',no:'Não',gut:'Teste de intuição',lesson1:'Aula 1 · grátis',locale:'pt-BR',sinceEntry:'desde a entrada'},
+  es:{yes:'Sí',no:'No',gut:'Prueba tu intuición',lesson1:'Lección 1 · gratis',locale:'es-MX',sinceEntry:'desde la entrada'}
 };
 function ui(k){ return (UI[S.lang]||UI.en)[k]; }
 
@@ -813,20 +813,20 @@ function drawDemoChart(){
   const phase=cv.dataset.phase, pos=+cv.dataset.pos, dir=cv.dataset.dir, result=cv.dataset.result, seed=+cv.dataset.seed;
   const r=mulberry(seed), N=48, padR=62, entryX=Math.round((W-padR)*0.62), expX=W-padR;
   // history to the left of entry, then the live leg to the right
-  const base=2648.30; let v=base, mom=0; const hist=[]; for(let i=0;i<N;i++){ mom=mom*.6+(r()-.5)*.9; v+=mom; hist.push(v); }
-  hist[N-1]=base;
+  const base=2648.30; let v=0, mom=0; const raw=[]; for(let i=0;i<N;i++){ mom=mom*.6+(r()-.5)*.9; v+=mom; raw.push(v); }
+  const shift=base-raw[N-1]; const hist=raw.map(x=>x+shift);
   const live=[]; if(phase!=='pick'){ const want=(result==='won'?dir:(dir==='up'?'down':'up')); let lv=base, lm=0; const M=24; for(let i=1;i<=M;i++){ const drift=(want==='up'?1:-1)*(i/M)*2.4; lm=lm*.6+(r()-.5)*.6; lv=base+drift+lm; live.push(lv); } }
   const all=hist.concat(live.slice(0,Math.max(0,Math.round(live.length*pos))));
   const lo=Math.min(...hist,...live,base)-.6, hi=Math.max(...hist,...live,base)+.6;
-  const y=val=>H-14-((val-lo)/(hi-lo))*(H-44);
+  const TOP=64, BOT=18; const y=val=>H-BOT-((val-lo)/(hi-lo))*(H-TOP-BOT);
   const xAt=i=>i<N? (i/(N-1))*entryX : entryX+((i-N+1)/live.length)*(expX-entryX);
   c.clearRect(0,0,W,H);
   // grid
-  c.strokeStyle='rgba(61,61,61,.4)'; c.lineWidth=1; for(let g=1;g<4;g++){ const gy=Math.round(14+(H-44)*g/4)+.5; c.beginPath(); c.moveTo(0,gy); c.lineTo(W,gy); c.stroke(); }
+  c.strokeStyle='rgba(61,61,61,.4)'; c.lineWidth=1; for(let g=1;g<4;g++){ const gy=Math.round(TOP+(H-TOP-BOT)*g/4)+.5; c.beginPath(); c.moveTo(0,gy); c.lineTo(W,gy); c.stroke(); }
   // price labels on the right
   c.fillStyle='#6b6b6b'; c.font='600 10px "Space Grotesk", monospace'; c.textAlign='right';
   const curVal=all[all.length-1], curY=y(curVal);
-  for(let g=0;g<=4;g++){ const val=hi-(hi-lo)*g/4, gy=14+(H-44)*g/4+3; if(Math.abs(gy-curY)<14) continue; c.fillText(val.toFixed(2), W-6, gy); }
+  const entryY=y(base); for(let g=0;g<=4;g++){ const val=hi-(hi-lo)*g/4, gy=TOP+(H-TOP-BOT)*g/4+3; if(Math.abs(gy-curY)<20 || (phase!=='pick'&&Math.abs(gy-entryY-3)<12)) continue; c.fillText(val.toFixed(2), W-6, gy); }
   // expiry line
   c.setLineDash([3,4]); c.strokeStyle='rgba(255,255,255,.25)'; c.beginPath(); c.moveTo(expX+.5,8); c.lineTo(expX+.5,H-10); c.stroke(); c.setLineDash([]);
   c.fillStyle='#878787'; c.font='700 9px Manrope, sans-serif'; c.textAlign='center'; c.fillText('EXPIRY', expX, H-2);
@@ -841,7 +841,7 @@ function drawDemoChart(){
   // entry line + marker
   if(phase!=='pick'){
     c.setLineDash([4,4]); c.strokeStyle='rgba(255,255,255,.45)'; c.beginPath(); c.moveTo(0,y(base)+.5); c.lineTo(W,y(base)+.5); c.stroke(); c.setLineDash([]);
-    c.fillStyle='rgba(255,255,255,.85)'; c.font='700 9px Manrope, sans-serif'; c.textAlign='left'; c.fillText((dir==='up'?'▲ UP':'▼ DOWN')+' · ENTRY '+base.toFixed(2), 8, y(base)-5);
+    c.fillStyle='rgba(255,255,255,.85)'; c.font='700 10px "Space Grotesk", monospace'; c.textAlign='left'; c.fillText((dir==='up'?'▲ ':'▼ ')+'entry '+base.toFixed(2), 8, entryY+14);
     c.fillStyle=dir==='up'?'#14C679':'#FF646C'; c.beginPath(); c.arc(entryX,y(base),4,0,Math.PI*2); c.fill();
     // zone shading between entry and current price
     if(all.length>N){ c.fillStyle=(result==='won'&&pos>=1)?'rgba(20,198,121,.14)':(pos>=1?'rgba(255,100,108,.14)':'rgba(255,255,255,.04)'); c.fillRect(entryX,Math.min(y(base),lastY),expX-entryX,Math.abs(y(base)-lastY)); }
@@ -854,7 +854,7 @@ function drawDemoChart(){
   // quote overlay
   const px=$('[data-px]',frame), dl=$('[data-dl]',frame);
   if(px){ px.textContent=cur.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
-  if(dl){ const d=cur-base; dl.textContent=(phase==='pick'?'XAU/USD · 60 s':(d>=0?'+':'')+d.toFixed(2)+' since entry'); dl.className='dl '+(phase==='pick'?'':d>=0?'up':'down'); }
+  if(dl){ const d=cur-base; const fav=(dir==='up')===(d>=0); dl.textContent=(phase==='pick'?'XAU/USD · 60 s':(d>=0?'+':'')+d.toFixed(2)+' · '+ui('sinceEntry')); dl.className='dl '+(phase==='pick'?'':fav?'up':'down'); }
 }
 
 /* ============ render + wiring ============ */
