@@ -16,4 +16,4 @@ Static landings, no build step. `shared.css` + `shared.js` hold all five tracks;
 - Sign-up / help URLs: `config.js`. Every CTA appends `track`, `lang` and all `utm_*` from the landing URL.
 - Tracking: `tags.js` loads before `shared.js` and reads `tracking` from `config.js` — separate IDs for the branded group (play/gut/kocok) and the unbranded one (trade/learn). Prefer `gtm` (one container; GA4, Google Ads and Meta Pixel inside it, triggered by dataLayer events). `ga4`/`ads` load gtag directly and mirror every landing event as a GA event; `meta` loads the Pixel directly, maps `landing_cta_clicked` → Lead and quiz/stick/demo completions → custom events. `?debug=1` logs events to the console.
 - Copy: all strings live in the `C` object at the top of `shared.js` (EN and ID side by side). Vote shares and counters are placeholders until the real endpoint is wired.
-- Hosting: GitHub Pages from `main`, root. Custom domain via `CNAME` file + DNS.
+- Hosting: static files on any web server, see DEPLOY.md.
