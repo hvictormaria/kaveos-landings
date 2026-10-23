@@ -528,3 +528,7 @@ table.cmp td.same{color:var(--text-primary)}
 
 /* unbranded tracks: header keeps its height, no wordmark */
 .nologo{display:inline-block;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--bg-brand),#CB3BFF);opacity:.9}
+
+/* trader quote: keep amount + label on one line each */
+.quote{flex-wrap:wrap;gap:6px 14px}
+.quote span{white-space:nowrap}
