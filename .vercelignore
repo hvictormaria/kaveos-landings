@@ -1,0 +1,27 @@
+# Unbranded host: only trade/learn are deployed. Branded tracks live on go.kaveos.com (GitLab repo).
+play
+gut
+kocok
+id/play
+id/gut
+id/kocok
+my/play
+my/gut
+my/kocok
+ph/play
+ph/gut
+ph/kocok
+br/play
+br/gut
+br/kocok
+mx/play
+mx/gut
+mx/kocok
+ng/play
+ng/gut
+ng/kocok
+index.html
+favicon.svg
+README.md
+DEPLOY.md
+.gitlab-ci.yml
