@@ -7,12 +7,12 @@
 | Хост | Что отдаём | Корень |
 |---|---|---|
 | **go.kaveos.com** | брендовые треки `play`, `gut`, `kocok` для всех гео | этот репозиторий целиком |
-| **Vercel** (бесбрендовый хост, домен подключается в Vercel → Domains) | `trade`, `learn` для всех гео | этот же репозиторий; `vercel.json` закрывает play/gut/kocok и корень, `/` → `/trade/` |
+| **shorttrade.app** (Vercel, проект `kaveos-landings`, team M) | `trade`, `learn` для всех гео | этот же репозиторий; `.vercelignore` исключает play/gut/kocok из деплоя, `/` → `/trade/` |
 
 Оба хоста отдают одну и ту же папку. Разница — только в том, какие пути открыты наружу (ниже). Так одно изменение в `shared.js` попадает на оба.
 
 ## Vercel (бесбрендовые треки)
-Проект импортируется из GitHub `hvictormaria/kaveos-landings` (или GitLab), Framework Preset = Other, без build-команды, Output = корень. `vercel.json` уже в репозитории: отдаёт только `*/trade/` и `*/learn/`, остальное → 404, корень → `/trade/`. Кастомный домен: Vercel → Settings → Domains, DNS по подсказке Vercel (A 76.76.21.21 или CNAME cname.vercel-dns.com). Для этого хоста в `config.js` действует `tracking.unbranded` и `tracks.trader|learn` — отдельный пиксель/GA.
+Проект импортируется из GitHub `hvictormaria/kaveos-landings` (или GitLab), Framework Preset = Other, без build-команды, Output = корень. `vercel.json` уже в репозитории: отдаёт только `*/trade/` и `*/learn/`, остальное → 404, корень → `/trade/`. Домен `shorttrade.app` куплен в Vercel 2026-10-23 ($9.99, автопродление $15/год), DNS на серверах Vercel, `www` → apex. Для Meta: верифицировать `shorttrade.app` под пиксель 1476857574314634. Для этого хоста в `config.js` действует `tracking.unbranded` и `tracks.trader|learn` — отдельный пиксель/GA.
 
 ## Пути
 
