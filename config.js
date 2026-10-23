@@ -6,7 +6,9 @@ window.KAVEOS_CONFIG = {
   signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets',
   help:   'https://kaveos.com/information',
   tracks: {
-    trader: { signup: 'https://REPLACE-ME.example/auth', help: 'https://REPLACE-ME.example/support' },
-    learn:  { signup: 'https://REPLACE-ME.example/auth', help: 'https://REPLACE-ME.example/support' }
+    // Unbranded trading tracks: straight to registration (per Maria, 2026-10-23).
+    // Note: /markets is the public feed and does not force sign-in; /auth is the actual sign-in route.
+    trader: { signup: 'https://kaveos.com/markets?continueByUrl=%2Fmarkets', help: 'https://kaveos.com/information' },
+    learn:  { signup: 'https://kaveos.com/markets?continueByUrl=%2Fmarkets', help: 'https://kaveos.com/information' }
   }
 };
