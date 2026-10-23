@@ -293,8 +293,8 @@ table.tt td:last-child{font-weight:600}
 .land[data-track="learn"] .logo{text-shadow:0 0 18px var(--glow)}
 .land[data-track="learn"] .btn.brand{background:linear-gradient(180deg,#9D2BFF,#7A00E6);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 32px var(--glow)}
 .land[data-track="learn"] .btn.secondary{background:rgba(255,255,255,.05);border-color:rgba(217,194,255,.25)}
-.land[data-track="learn"] .updown .up{background:linear-gradient(180deg,#1BD98A,#0FA866);color:#06110B;box-shadow:0 6px 22px rgba(20,198,121,.35)}
-.land[data-track="learn"] .updown .down{background:linear-gradient(180deg,#FF7A80,#E84A52);color:#1A0608;box-shadow:0 6px 22px rgba(255,100,108,.35)}
+.land[data-track="learn"] .updown .up{background:linear-gradient(180deg,#1BD98A,#0FA866);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25);box-shadow:0 6px 22px rgba(20,198,121,.35)}
+.land[data-track="learn"] .updown .down{background:linear-gradient(180deg,#FF7A80,#E84A52);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25);box-shadow:0 6px 22px rgba(255,100,108,.35)}
 .land[data-track="learn"] .updown .btn:disabled{opacity:.55;box-shadow:none}
 .land[data-track="learn"] .updown.pulse .btn:not(:disabled){animation:pulse 1.1s ease-in-out 3}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04);filter:brightness(1.15)}}
