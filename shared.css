@@ -594,7 +594,8 @@ table.cmp td.same{color:var(--text-primary)}
 .lbar i.on{background:linear-gradient(90deg,#9D2BFF,#CB3BFF);box-shadow:0 0 10px rgba(138,5,255,.55)}
 .lprog span{font-size:13px;color:var(--text-secondary)}
 .lprog b{color:var(--text-primary)}
-.lhead-r{align-items:stretch!important;width:260px;margin-right:24px}
+.lhead-r{align-items:stretch!important;width:260px;margin-right:40px}
+@media (max-width:1100px){ .lhead-r{margin-right:20px} }
 .lhead-r .btn{width:100%!important;min-width:0!important}
 .lhead-r .lprog{margin-top:12px}
 @media (max-width:899px){ .land[data-track="learn"] .lprog{max-width:100%} }
