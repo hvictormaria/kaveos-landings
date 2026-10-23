@@ -1,4 +1,10 @@
 /* ============ COPY — all strings live here (marketing edits text, not layout) ============ */
+const BRAND={ game:'Kaveos', intuition:'Kaveos', shake:'Kaveos', trader:null, learn:null };
+const UNBRANDED={
+  en:{legal:"[Legal entity · reg. no. · address]",shortLegal:"Short trades"},
+  id:{legal:"[Badan hukum · no. reg. · alamat]",shortLegal:"Trade singkat"}
+};
+function brandOf(track){ return BRAND[track]||null; }
 const C = {
   common:{
     en:{help:"Help",lang:"EN",legal:"Kaveos · [legal entity from Footer library]",age:"18+",langLabel:"English",footerNote:"Footer component from Design system: legal entity, 18+, language.",moneyTitle:"What about money?"},
@@ -407,8 +413,8 @@ const $ = (sel,root=document)=>root.querySelector(sel);
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ev(name, props){ const p=Object.assign({},props||{}); window.dataLayer=window.dataLayer||[]; window.dataLayer.push(Object.assign({event:name},p)); if(window.posthog&&posthog.capture) try{posthog.capture(name,p);}catch(e){} if(location.hostname==='localhost'||/[?&]debug=1/.test(location.search)) console.log('[event]',name,p); }
 function utm(){ try{ const u=new URLSearchParams(location.search); const o={}; for(const [k,v] of u) if(/^utm_/.test(k)) o[k]=v; return o; }catch(e){ return {}; } }
-function signupUrl(){ const u=new URL(SIGNUP_URL); u.searchParams.set('track',S.track); u.searchParams.set('lang',S.lang); for(const [k,v] of Object.entries(utm())) u.searchParams.set(k,v); return u.toString(); }
-function helpUrl(){ const u=new URL(HELP_URL); u.searchParams.set('track',S.track); return u.toString(); }
+function signupUrl(){ const u=new URL(cfgFor('signup')||'https://example.invalid/signup'); u.searchParams.set('track',S.track); u.searchParams.set('lang',S.lang); for(const [k,v] of Object.entries(utm())) u.searchParams.set(k,v); return u.toString(); }
+function helpUrl(){ const u=new URL(cfgFor('help')||'https://example.invalid/help'); u.searchParams.set('track',S.track); return u.toString(); }
 function fmt(s,o){ return s.replace(/\{(\w+)\}/g,(_,k)=>o[k]); }
 const icons = {
   pick:'<svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
@@ -446,8 +452,9 @@ function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a
 /* ============ shared blocks ============ */
 function header(track){
   const c=C.common[S.lang];
+  const b=brandOf(track);
   return `<div class="hdr wrap">
-    <div class="logo">Kaveos</div>
+    <div class="logo">${b?esc(b):'<span class="nologo" aria-hidden="true"></span>'}</div>
     <div class="r">
       <button class="pill lang" data-lang-toggle>${S.lang==='en'?'EN · ID':'ID · EN'}</button>
       <button class="pill" data-help data-ev="landing_help_clicked {track:${track}}">${c.help}</button>
@@ -455,9 +462,10 @@ function header(track){
 }
 function footer(track){
   const c=C.common[S.lang];
+  const b=brandOf(track), legal=b?c.legal:UNBRANDED[S.lang].legal;
   return `<div class="ftr wrap" data-footer>
-    <div class="row"><span class="logo" style="font-size:12px">Kaveos</span><span class="age">${c.age}</span><span>${c.langLabel}</span></div>
-    <div>${esc(c.legal)}</div>
+    <div class="row">${b?`<span class="logo" style="font-size:12px">${esc(b)}</span>`:''}<span class="age">${c.age}</span><span>${c.langLabel}</span></div>
+    <div>${esc(legal)}</div>
     <div class="row"><button class="pill" data-help data-ev="landing_help_clicked {track:${track}}">${c.help}</button></div>
     <div class="ph">${c.footerNote}</div>
     ${track==='cards'&&IMG.tarot?`<div class="credit">Tarot: Pamela Colman Smith, Rider &amp; Co., 1909 · public domain · scans steve-p.org</div>`:''}
@@ -562,7 +570,7 @@ function renderIntuition(){
   }
   if(q.share){
     const type=q.forceType||gutType(q.answers,t.qs);
-    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916"><div><div class="k">KAVEOS</div><p class="cap" style="color:#fff;opacity:.8;margin-top:14px">${esc(t.resultLead)}</p><div class="ty">${esc(t.types[type][0])}</div></div>
+    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916"><div><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:14px">${esc(t.resultLead)}</p><div class="ty">${esc(t.types[type][0])}</div></div>
       <div class="grid5">${t.qs.map((qq,i)=>{const a=q.answers[i]||(qq.y>=50?'yes':'no');return `<div><span>${esc(qq.t)}</span><span class="num">${a==='yes'?(S.lang==='en'?'YES':'YA'):(S.lang==='en'?'NO':'NGGAK')} · ${a==='yes'?qq.y:100-qq.y}%</span></div>`;}).join('')}</div>
       <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="lbl">${esc(t.shareLabel)}</div></div>`;
   }
@@ -670,7 +678,7 @@ function renderCards(){
   }
   if(K.share && K.picked!==null){
     const ci=order[K.picked], c=deck[ci], q=t.qs[(K.round*2+K.picked)%6];
-    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916 cards"><div class="k">KAVEOS</div><div class="bigcard ${IMG[deckKey]?'photo':''}">${IMG[deckKey]?cardArt(deckKey,ci):`${c[0]?`<span class="rn">${c[0]}</span>`:'<span></span>'}${GLYPH[deckKey][ci]}<span class="nm">${esc(c[1])}</span>`}</div>
+    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916 cards"><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><div class="bigcard ${IMG[deckKey]?'photo':''}">${IMG[deckKey]?cardArt(deckKey,ci):`${c[0]?`<span class="rn">${c[0]}</span>`:'<span></span>'}${GLYPH[deckKey][ci]}<span class="nm">${esc(c[1])}</span>`}</div>
       <div><div class="ty">${esc(c[2])}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:8px">${esc(q.q)} — <b>${K.answered==='yes'?(S.lang==='en'?'YES':'YA'):(S.lang==='en'?'NO':'NGGAK')}</b></p></div>
       <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="lbl">${esc(t.shareLabel)}</div></div>`;
   }
@@ -712,7 +720,7 @@ function renderShake(){
   }
   if(K.share && K.picked!==null){
     const q=t.qs[K.picked];
-    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916 shake"><div class="k">KAVEOS</div><div class="bigstick">${K.picked+1}</div>
+    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916 shake"><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><div class="bigstick">${K.picked+1}</div>
       <div><div class="ty">${esc(t.topics[K.picked])}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:8px">${esc(q.q)} — <b>${K.answered==='yes'?(S.lang==='en'?'YES':'YA'):(S.lang==='en'?'NO':'NGGAK')}</b></p></div>
       <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="lbl">${esc(t.shareLabel)}</div></div>`;
   }
@@ -835,8 +843,9 @@ frame.addEventListener('click',e=>{
 
 
 /* ============ boot ============ */
-const SIGNUP_URL = (window.KAVEOS_CONFIG&&KAVEOS_CONFIG.signup)||'https://kaveos.com/auth?continueByUrl=%2Fmarkets';
-const HELP_URL   = (window.KAVEOS_CONFIG&&KAVEOS_CONFIG.help)||'https://kaveos.com/information';
+const CFG=window.KAVEOS_CONFIG||{};
+function cfgFor(key){ const t=S.track; const per=(CFG.tracks&&CFG.tracks[t])||{}; return per[key]||CFG[key]||''; }
+let SIGNUP_URL='', HELP_URL='';
 function boot(track){
   S.track=track;
   try{ const l=new URLSearchParams(location.search).get('lang'); if(l==='id'||l==='en') S.lang=l; else if(/^id\b/i.test(navigator.language||'')) S.lang='id'; }catch(e){}
@@ -845,4 +854,4 @@ function boot(track){
   ev('landing_viewed',{track:S.track,lang:S.lang});
   let rw; window.addEventListener('resize',()=>{ clearTimeout(rw); rw=setTimeout(()=>render(true),150); });
 }
-window.KaveosLanding={boot,S,C};
+window.KaveosLanding={boot,S,C,BRAND};

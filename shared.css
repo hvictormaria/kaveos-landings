@@ -525,3 +525,6 @@ table.cmp td.same{color:var(--text-primary)}
   .sheet{max-width:440px;border-radius:20px}
 }
 .open-q{display:none!important}
+
+/* unbranded tracks: header keeps its height, no wordmark */
+.nologo{display:inline-block;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--bg-brand),#CB3BFF);opacity:.9}
