@@ -491,7 +491,7 @@ function signupUrl(){ const u=new URL(cfgFor('signup')||'https://example.invalid
 function savedContact(){ try{ return localStorage.getItem('kv_contact')||''; }catch(e){ return ''; } }
 function saveContact(v){ try{ if(v) localStorage.setItem('kv_contact',v); }catch(e){} }
 function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
-function helpUrl(){ const u=new URL(cfgFor('help')||'https://example.invalid/help'); u.searchParams.set('track',S.track); return u.toString(); }
+function helpUrl(){ const h=cfgFor('help'); if(/^mailto:/i.test(h)) return h+(h.includes('?')?'&':'?')+'subject='+encodeURIComponent('Kaveos · '+S.track+' · '+S.geo); const u=new URL(h); u.searchParams.set('track',S.track); return u.toString(); }
 function fmt(s,o){ return s.replace(/\{(\w+)\}/g,(_,k)=>o[k]); }
 const icons = {
   pick:'<svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
@@ -534,7 +534,7 @@ function header(track){
     <div class="logo">${b?esc(b):'<span class="nologo" aria-hidden="true"></span>'}</div>
     <div class="r">
       ${(GEO[S.geo]||GEO.en).langs.length>1?`<button class="pill lang" data-lang-toggle>${(GEO[S.geo]||GEO.en).langs.map(l=>l.toUpperCase()).sort((a,b)=>a===S.lang.toUpperCase()?-1:b===S.lang.toUpperCase()?1:0).join(' · ')}</button>`:''}
-      <button class="pill" data-help data-ev="landing_help_clicked {track:${track}}">${c.help}</button>
+      ${cfgFor('help')?`<button class="pill" data-help data-ev="landing_help_clicked {track:${track}}">${c.help}</button>`:''}
     </div></div>`;
 }
 function footer(track){
@@ -543,7 +543,7 @@ function footer(track){
   return `<div class="ftr wrap" data-footer>
     <div class="row">${b?`<span class="logo" style="font-size:12px">${esc(b)}</span>`:''}<span class="age">${c.age}</span><span>${c.langLabel}</span></div>
     ${legal?`<div>${esc(legal)}</div>`:''}
-    <div class="row"><button class="pill" data-help data-ev="landing_help_clicked {track:${track}}">${c.help}</button></div>
+    <div class="row">${cfgFor('help')?`<button class="pill" data-help data-ev="landing_help_clicked {track:${track}}">${c.help}</button>`:''}</div>
       </div>`;
 }
 function moneyBlock(title, lines, track, extra=''){
@@ -957,7 +957,7 @@ frame.addEventListener('submit',e=>{
 frame.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   if(b.hasAttribute('data-lang-toggle')){ const ls=(GEO[S.geo]||GEO.en).langs; S.lang=ls[(ls.indexOf(S.lang)+1)%ls.length]; try{ const u=new URL(location.href); u.searchParams.set('lang',S.lang); history.replaceState(null,'',u); document.documentElement.lang=S.lang; }catch(e){} render(true); return; }
-  if(b.hasAttribute('data-help')){ ev('landing_help_clicked',{track:S.track}); window.open(helpUrl(),'_blank','noopener'); return; }
+  if(b.hasAttribute('data-help')){ ev('landing_help_clicked',{track:S.track}); const u=helpUrl(); if(/^mailto:/i.test(u)) location.href=u; else window.open(u,'_blank','noopener'); return; }
   if(b.hasAttribute('data-close')){ S[S.track].sheet=false; S[S.track].share=false; render(true); return; }
   if(b.hasAttribute('data-open-sheet')){ ev('landing_cta_clicked',{track:S.track,position:(b.dataset.ev.match(/position:(\w+)/)||[])[1]}); S[S.track].sheet=true; render(true); return; }
   if(b.hasAttribute('data-reg')){ return; } /* handled by the submit listener below */

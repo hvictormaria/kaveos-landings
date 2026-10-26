@@ -13,11 +13,12 @@ window.KAVEOS_CONFIG = {
   legal: { branded: '', unbranded: '', company: '' },  // company shows in 'Who we are' on /trade
   // /auth with #SignUp opens the Register form; ?email= prefills the field (verified on prod 2026-10-23).
   signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp',
-  help:   'https://kaveos.com/information',
+  // Help button: hidden while empty. Use a real page or 'mailto:support@…' (subject gets track and geo).
+  help:   '',
   tracks: {
     // Unbranded trading tracks: straight to registration (per Maria, 2026-10-23).
     // Note: /markets is the public feed and does not force sign-in; /auth is the actual sign-in route.
-    trader: { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp', help: 'https://kaveos.com/information' },
-    learn:  { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp', help: 'https://kaveos.com/information' }
+    trader: { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp', help: '' },
+    learn:  { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp', help: '' }
   }
 };
