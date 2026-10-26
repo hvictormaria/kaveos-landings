@@ -599,3 +599,11 @@ table.cmp td.same{color:var(--text-primary)}
 .lhead-r .btn{width:100%!important;min-width:0!important}
 .lhead-r .lprog{margin-top:12px}
 @media (max-width:899px){ .land[data-track="learn"] .lprog{max-width:100%} }
+
+/* share popup: close button on the card, actions under it */
+.sharewrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:100%}
+.sharebox .sharewrap .x{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:#1D1538;color:#fff;font-size:20px;line-height:1;z-index:2;cursor:pointer}
+.sharebox .sharewrap .x:hover{background:#2A2150}
+.shareact{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(320px,100%)}
+.shareact .btn{width:100%!important;min-width:0!important;height:48px;font-size:15px}
+.sharebox{overflow-y:auto}

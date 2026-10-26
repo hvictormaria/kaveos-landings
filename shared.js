@@ -40,12 +40,12 @@ function geoCopy(obj){ if(typeof obj==='string') return geoFill(obj); if(Array.i
 
 /* per-language UI words used outside the copy packs */
 const UI={
-  en:{yes:'Yes',no:'No',gut:'Gut check',lesson1:'Lesson 1 · free',locale:'en-US',sinceEntry:'since entry'},
-  id:{yes:'Ya',no:'Nggak',gut:'Tes insting',lesson1:'Pelajaran 1 · gratis',locale:'id-ID',sinceEntry:'sejak entry'},
-  ms:{yes:'Ya',no:'Tak',gut:'Uji naluri',lesson1:'Pelajaran 1 · percuma',locale:'ms-MY',sinceEntry:'sejak entry'},
-  tl:{yes:'Oo',no:'Hindi',gut:'Gut check',lesson1:'Lesson 1 · libre',locale:'en-PH',sinceEntry:'mula entry'},
-  pt:{yes:'Sim',no:'Não',gut:'Teste de intuição',lesson1:'Aula 1 · grátis',locale:'pt-BR',sinceEntry:'desde a entrada'},
-  es:{yes:'Sí',no:'No',gut:'Prueba tu intuición',lesson1:'Lección 1 · gratis',locale:'es-MX',sinceEntry:'desde la entrada'}
+  en:{yes:'Yes',no:'No',gut:'Gut check',lesson1:'Lesson 1 · free',locale:'en-US',sinceEntry:'since entry',close:'Close'},
+  id:{yes:'Ya',no:'Nggak',gut:'Tes insting',lesson1:'Pelajaran 1 · gratis',locale:'id-ID',sinceEntry:'sejak entry',close:'Tutup'},
+  ms:{yes:'Ya',no:'Tak',gut:'Uji naluri',lesson1:'Pelajaran 1 · percuma',locale:'ms-MY',sinceEntry:'sejak entry',close:'Tutup'},
+  tl:{yes:'Oo',no:'Hindi',gut:'Gut check',lesson1:'Lesson 1 · libre',locale:'en-PH',sinceEntry:'mula entry',close:'Isara'},
+  pt:{yes:'Sim',no:'Não',gut:'Teste de intuição',lesson1:'Aula 1 · grátis',locale:'pt-BR',sinceEntry:'desde a entrada',close:'Fechar'},
+  es:{yes:'Sí',no:'No',gut:'Prueba tu intuición',lesson1:'Lección 1 · gratis',locale:'es-MX',sinceEntry:'desde la entrada',close:'Cerrar'}
 };
 function ui(k){ return (UI[S.lang]||UI.en)[k]; }
 
@@ -647,9 +647,9 @@ function renderIntuition(){
   }
   if(q.share){
     const type=q.forceType||gutType(q.answers,t.qs);
-    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916"><div><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:14px">${esc(t.resultLead)}</p><div class="ty">${esc(t.types[type][0])}</div></div>
+    overlay+=`<div class="sharebox" data-overlay data-backdrop><div class="sharewrap"><button class="x" data-close aria-label="Close">×</button><div class="share916"><div><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:14px">${esc(t.resultLead)}</p><div class="ty">${esc(t.types[type][0])}</div></div>
       <div class="grid5">${t.qs.map((qq,i)=>{const a=q.answers[i]||(qq.y>=50?'yes':'no');return `<div><span>${esc(qq.t)}</span><span class="num">${a==='yes'?(ui('yes').toUpperCase()):(ui('no').toUpperCase())} · ${a==='yes'?qq.y:100-qq.y}%</span></div>`;}).join('')}</div>
-      <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="lbl">${esc(t.shareLabel)}</div></div>`;
+      <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="shareact"><button class="btn brand" data-share-go>${esc(t.share)}</button><button class="btn secondary" data-close>${esc(ui('close'))}</button></div></div></div>`;
   }
   return `<div class="land ${wide?'wide':''}" data-track="intuition" data-ev-root="landing_viewed {track:intuition, lang:${S.lang}}"><canvas class="stars" data-stars aria-hidden="true"></canvas>${header('intuition')}${body}${overlay}</div>`;
 }
@@ -792,9 +792,9 @@ function renderCards(){
   }
   if(K.share && K.picked!==null){
     const ci=order[K.picked], c=deck[ci], q=t.qs[(K.round*2+K.picked)%6];
-    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916 cards"><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><div class="bigcard ${IMG[deckKey]?'photo':''}">${IMG[deckKey]?cardArt(deckKey,ci):`${c[0]?`<span class="rn">${c[0]}</span>`:'<span></span>'}${GLYPH[deckKey][ci]}<span class="nm">${esc(c[1])}</span>`}</div>
+    overlay+=`<div class="sharebox" data-overlay data-backdrop><div class="sharewrap"><button class="x" data-close aria-label="Close">×</button><div class="share916 cards"><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><div class="bigcard ${IMG[deckKey]?'photo':''}">${IMG[deckKey]?cardArt(deckKey,ci):`${c[0]?`<span class="rn">${c[0]}</span>`:'<span></span>'}${GLYPH[deckKey][ci]}<span class="nm">${esc(c[1])}</span>`}</div>
       <div><div class="ty">${esc(c[2])}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:8px">${esc(q.q)} — <b>${K.answered==='yes'?(ui('yes').toUpperCase()):(ui('no').toUpperCase())}</b></p></div>
-      <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="lbl">${esc(t.shareLabel)}</div></div>`;
+      <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="shareact"><button class="btn brand" data-share-go>${esc(t.share)}</button><button class="btn secondary" data-close>${esc(ui('close'))}</button></div></div></div>`;
   }
   return `<div class="land ${wide?'wide':''}" data-track="cards" data-ev-root="landing_viewed {track:cards, lang:${S.lang}}">${header('cards')}${hero}${steps}${pulled}${moneyBlock(T('common').moneyTitle,t.moneyLines,'cards')}${faq(t.faq)}${bottom}${footer('cards')}${overlay}</div>`;
 }
@@ -834,9 +834,9 @@ function renderShake(){
   }
   if(K.share && K.picked!==null){
     const q=t.qs[K.picked];
-    overlay+=`<div class="sharebox" data-overlay><button class="x" data-close>×</button><div class="share916 shake"><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><div class="bigstick">${K.picked+1}</div>
+    overlay+=`<div class="sharebox" data-overlay data-backdrop><div class="sharewrap"><button class="x" data-close aria-label="Close">×</button><div class="share916 shake"><div class="k">${brandOf(S.track)?esc(brandOf(S.track)).toUpperCase():""}</div><div class="bigstick">${K.picked+1}</div>
       <div><div class="ty">${esc(t.topics[K.picked])}</div><p class="cap" style="color:#fff;opacity:.8;margin-top:8px">${esc(q.q)} — <b>${K.answered==='yes'?(ui('yes').toUpperCase()):(ui('no').toUpperCase())}</b></p></div>
-      <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="lbl">${esc(t.shareLabel)}</div></div>`;
+      <div class="cta">${esc(t.h1.split('\n')[0])}</div></div><div class="shareact"><button class="btn brand" data-share-go>${esc(t.share)}</button><button class="btn secondary" data-close>${esc(ui('close'))}</button></div></div></div>`;
   }
   return `<div class="land ${wide?'wide':''}" data-track="shake" data-ev-root="landing_viewed {track:shake, lang:${S.lang}}">${header('shake')}${hero}${steps}${shaken}${moneyBlock(T('common').moneyTitle,t.moneyLines,'shake')}${faq(t.faq)}${bottom}${footer('shake')}${overlay}</div>`;
 }
@@ -941,6 +941,7 @@ function updateSticky(){
   s.hidden = S.vp==='w' || !(window.scrollY + window.innerHeight > m.offsetTop + m.offsetHeight + 40);
 }
 window.addEventListener('scroll',updateSticky,{passive:true});
+document.addEventListener('keydown',e=>{ if(e.key!=='Escape') return; const st=S[S.track]; if(st&&(st.share||st.sheet)){ st.share=false; st.sheet=false; render(true); } });
 window.addEventListener('resize',()=>drawDemoChart());
 
 frame.addEventListener('submit',e=>{
@@ -955,6 +956,12 @@ frame.addEventListener('submit',e=>{
   btn.disabled=true; location.href=u.toString();
 });
 frame.addEventListener('click',e=>{
+  const bd=e.target.closest('[data-backdrop]'); if(bd && e.target===bd){ S[S.track].share=false; render(true); return; }
+  if(e.target.closest('[data-share-go]')){ const t=T(S.track); const url=location.origin+location.pathname+(location.search||''); const text=(t.h1||'').replace(/[*\n]/g,' ').replace(/\s+/g,' ').trim();
+    ev('share_sent',{track:S.track});
+    if(navigator.share){ navigator.share({title:document.title,text,url}).catch(()=>{}); }
+    else if(navigator.clipboard){ navigator.clipboard.writeText(url).then(()=>{ const b=e.target.closest('[data-share-go]'); const old=b.textContent; b.textContent='✓ '+url.replace(/^https?:\/\//,'').slice(0,28)+'…'; setTimeout(()=>{ b.textContent=old; },1800); }).catch(()=>{}); }
+    return; }
   const b=e.target.closest('button'); if(!b) return;
   if(b.hasAttribute('data-lang-toggle')){ const ls=(GEO[S.geo]||GEO.en).langs; S.lang=ls[(ls.indexOf(S.lang)+1)%ls.length]; try{ const u=new URL(location.href); u.searchParams.set('lang',S.lang); history.replaceState(null,'',u); document.documentElement.lang=S.lang; }catch(e){} render(true); return; }
   if(b.hasAttribute('data-help')){ ev('landing_help_clicked',{track:S.track}); const u=helpUrl(); if(/^mailto:/i.test(u)) location.href=u; else window.open(u,'_blank','noopener'); return; }
