@@ -17,8 +17,9 @@ window.KAVEOS_CONFIG = {
   help:   '',
   tracks: {
     // Unbranded trading tracks: straight to registration (per Maria, 2026-10-23).
+    // room=classic pins the current trade room at sign-up (HVC-1768). Do not set room=events before that front is on prod.
     // Note: /markets is the public feed and does not force sign-in; /auth is the actual sign-in route.
-    trader: { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp', help: '' },
-    learn:  { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp', help: '' }
+    trader: { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets&room=classic#SignUp', help: '' },
+    learn:  { signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets&room=classic#SignUp', help: '' }
   }
 };
