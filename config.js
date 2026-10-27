@@ -6,8 +6,9 @@ window.KAVEOS_CONFIG = {
   // landing_money_block_viewed, quiz_answered, quiz_completed, demo_trade_placed, demo_trade_closed, lesson_started,
   // stick_shaken, stick_picked, stick_answered, stick_share_clicked — all with track, lang, geo where relevant.
   tracking: {
-    branded:   { gtm: '', ga4: 'G-E32PB7P8JG', ads: '', meta: '1619488042599515' },   // play / gut / kocok on go.kaveos.com — direct tags, same GA4 + Meta dataset as kaveos.com
-    unbranded: { gtm: '', ga4: '', ads: '', meta: '1476857574314634' }    // trade / learn on Vercel — own Meta dataset
+    branded:   { gtm: '', ga4: 'G-E32PB7P8JG', ads: '', meta: '1619488042599515', posthog: 'phc_pBvYtDJjwxU49cdWjGTKxmTQgM2wuKbkdBd7eoG2X3VD' },   // play / gut / kocok on go.kaveos.com — direct tags, same GA4 + Meta dataset as kaveos.com
+    unbranded: { gtm: '', ga4: '', ads: '', meta: '1476857574314634', posthog: 'phc_pBvYtDJjwxU49cdWjGTKxmTQgM2wuKbkdBd7eoG2X3VD' },   // trade / learn on Vercel — own Meta dataset
+    posthogHost: 'https://eu.i.posthog.com'   // PostHog: same public project key as the kaveos.com front
   },
   // Footer legal line. Empty = the line is not shown.
   legal: { branded: '', unbranded: '', company: '' },  // company shows in 'Who we are' on /trade
