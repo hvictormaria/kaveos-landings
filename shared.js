@@ -693,7 +693,7 @@ function renderTrader(){
     <div style="margin-top:${wide?0:24}px"><div class="risk">${esc(t.risk)}</div></div></div></section>`;
   const bottom=`<section class="sec wrap"><button class="btn brand" data-open-sheet data-ev="landing_cta_clicked {track:trader, position:bottom}">${esc(t.cta)}</button></section>`;
   const sticky=`<div class="sticky" data-sticky hidden><button class="btn brand" data-open-sheet data-ev="landing_cta_clicked {track:trader, position:sticky}">${esc(t.cta)}</button></div>`;
-  return `<div class="land ${wide?'wide':''}" data-track="trader" data-ev-root="landing_viewed {track:trader, lang:${S.lang}}">${header('trader')}${hero}${nums}${money}${screens}${assets}${who}${faq(t.faq)}${bottom}${footer('trader')}${sticky}
+  return `<div class="land ${wide?'wide':''}" data-track="trader" data-ev-root="landing_viewed {track:trader, lang:${S.lang}}">${header('trader')}${hero}${nums}${money}${screens}${assets}${faq(t.faq)}${bottom}${footer('trader')}${sticky}
     ${tr.sheet?sheet('trader',t.sheetTitle,t.sheetCap,t.input,t.cta,'hero'):''}</div>`;
 }
 

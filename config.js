@@ -11,7 +11,7 @@ window.KAVEOS_CONFIG = {
     posthogHost: 'https://eu.i.posthog.com'   // PostHog: same public project key as the kaveos.com front
   },
   // Footer legal line. Empty = the line is not shown.
-  legal: { branded: '', unbranded: '', company: '' },  // company shows in 'Who we are' on /trade
+  legal: { branded: '', unbranded: '', company: '' },  // company: not shown ('Who we are' block removed from /trade on 2026-10-28)
   // /auth with #SignUp opens the Register form; ?email= prefills the field (verified on prod 2026-10-23).
   signup: 'https://kaveos.com/auth?continueByUrl=%2Fmarkets#SignUp',
   // Help button: hidden while empty. Use a real page or 'mailto:support@…' (subject gets track and geo).
