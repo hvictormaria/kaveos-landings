@@ -487,7 +487,9 @@ const $ = (sel,root=document)=>root.querySelector(sel);
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ev(name, props){ const p=Object.assign({},props||{}); window.dataLayer=window.dataLayer||[]; window.dataLayer.push(Object.assign({event:name},p)); if(window.posthog&&posthog.capture) try{posthog.capture(name,p);}catch(e){} if(location.hostname==='localhost'||/[?&]debug=1/.test(location.search)) console.log('[event]',name,p); }
 function utm(){ try{ const u=new URLSearchParams(location.search); const o={}; for(const [k,v] of u) if(/^utm_/.test(k)) o[k]=v; return o; }catch(e){ return {}; } }
-function signupUrl(){ const u=new URL(cfgFor('signup')||'https://example.invalid/signup'); u.searchParams.set('track',S.track); u.searchParams.set('lang',S.lang); u.searchParams.set('geo',S.geo); for(const [k,v] of Object.entries(utm())) u.searchParams.set(k,v); for(const [k,v] of Object.entries(metaIds())) u.searchParams.set(k,v); return u.toString(); }
+function signupUrl(){ const u=new URL(cfgFor('signup')||'https://example.invalid/signup'); u.searchParams.set('track',S.track); u.searchParams.set('lang',S.lang); u.searchParams.set('geo',S.geo); for(const [k,v] of Object.entries(utm())) u.searchParams.set(k,v); for(const [k,v] of Object.entries(metaIds())) u.searchParams.set(k,v); const pix=landingPixel(); if(pix) u.searchParams.set('pix',pix); return u.toString(); }
+// Trading tracks (trade, learn) tell kaveos.com which Meta pixel/dataset brought the user: pix=<unbranded Meta id from config.js>.
+function landingPixel(){ if(S.track!=='trader'&&S.track!=='learn') return ''; const t=(CFG.tracking&&CFG.tracking.unbranded)||{}; return t.meta||''; }
 // Meta click ids for the sign-up link: kaveos.com is another domain for shorttrade.app, so its _fbc/_fbp cookies are not visible there.
 // fbclid comes from the ad click (kept for 90 days in this browser, as Meta does), fbp/fbc from the pixel cookies when present.
 function metaIds(){ const o={}; try{ const q=new URLSearchParams(location.search); let id=q.get('fbclid'), ts=Date.now();
