@@ -607,3 +607,11 @@ table.cmp td.same{color:var(--text-primary)}
 .shareact{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(320px,100%)}
 .shareact .btn{width:100%!important;min-width:0!important;height:48px;font-size:15px}
 .sharebox{overflow-y:auto}
+
+/* learn: two hero buttons (lesson + sign up) and an always-on sticky sign-up */
+.lbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lbtns .btn{width:100%;min-width:0;padding-inline:10px}
+.land[data-track="learn"]{padding-bottom:84px}
+.lhead-r .btn+.btn{margin-top:8px}
+.land .sticky.lsticky{display:block}
+@media (min-width:900px){ .land .sticky.lsticky{display:block} .sticky.lsticky .btn{max-width:360px} }

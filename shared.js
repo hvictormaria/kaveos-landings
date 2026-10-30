@@ -40,12 +40,12 @@ function geoCopy(obj){ if(typeof obj==='string') return geoFill(obj); if(Array.i
 
 /* per-language UI words used outside the copy packs */
 const UI={
-  en:{yes:'Yes',no:'No',gut:'Gut check',lesson1:'Lesson 1 · free',locale:'en-US',sinceEntry:'since entry',close:'Close'},
-  id:{yes:'Ya',no:'Nggak',gut:'Tes insting',lesson1:'Pelajaran 1 · gratis',locale:'id-ID',sinceEntry:'sejak entry',close:'Tutup'},
-  ms:{yes:'Ya',no:'Tak',gut:'Uji naluri',lesson1:'Pelajaran 1 · percuma',locale:'ms-MY',sinceEntry:'sejak entry',close:'Tutup'},
-  tl:{yes:'Oo',no:'Hindi',gut:'Gut check',lesson1:'Lesson 1 · libre',locale:'en-PH',sinceEntry:'mula entry',close:'Isara'},
-  pt:{yes:'Sim',no:'Não',gut:'Teste de intuição',lesson1:'Aula 1 · grátis',locale:'pt-BR',sinceEntry:'desde a entrada',close:'Fechar'},
-  es:{yes:'Sí',no:'No',gut:'Prueba tu intuición',lesson1:'Lección 1 · gratis',locale:'es-MX',sinceEntry:'desde la entrada',close:'Cerrar'}
+  en:{signup:'Sign up',yes:'Yes',no:'No',gut:'Gut check',lesson1:'Lesson 1 · free',locale:'en-US',sinceEntry:'since entry',close:'Close'},
+  id:{signup:'Daftar',yes:'Ya',no:'Nggak',gut:'Tes insting',lesson1:'Pelajaran 1 · gratis',locale:'id-ID',sinceEntry:'sejak entry',close:'Tutup'},
+  ms:{signup:'Daftar',yes:'Ya',no:'Tak',gut:'Uji naluri',lesson1:'Pelajaran 1 · percuma',locale:'ms-MY',sinceEntry:'sejak entry',close:'Tutup'},
+  tl:{signup:'Mag-sign up',yes:'Oo',no:'Hindi',gut:'Gut check',lesson1:'Lesson 1 · libre',locale:'en-PH',sinceEntry:'mula entry',close:'Isara'},
+  pt:{signup:'Cadastre-se',yes:'Sim',no:'Não',gut:'Teste de intuição',lesson1:'Aula 1 · grátis',locale:'pt-BR',sinceEntry:'desde a entrada',close:'Fechar'},
+  es:{signup:'Regístrate',yes:'Sí',no:'No',gut:'Prueba tu intuición',lesson1:'Lección 1 · gratis',locale:'es-MX',sinceEntry:'desde la entrada',close:'Cerrar'}
 };
 function ui(k){ return (UI[S.lang]||UI.en)[k]; }
 
@@ -728,11 +728,12 @@ function renderLearn(){
   const ring=`<div class="lprog" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="${L.done}"><div class="lbar">${[0,1,2,3,4].map(i=>`<i class="${i<L.done?'on':''}"></i>`).join('')}</div><span><b class="num">${L.done}</b> ${esc(t.progress)}</span></div>`;
   const h1=esc(t.h1).replace(/\*(.+?)\*/,'<em>$1</em>');
   const ctaLabel=L.done>0?t.cta2:t.cta;
+  const signBtn=(pos,cls)=>`<button class="btn ${cls}" data-open-sheet data-ev="landing_cta_clicked {track:learn, position:${pos}} → signup">${esc(ui('signup'))}</button>`;
   const ctaBtn=`<button class="btn brand" ${L.done>0?'data-open-sheet':'data-goto-demo'} data-ev="${L.done>0?'landing_cta_clicked {track:learn, position:hero} → signup':'lesson_started {n:1} → scroll to Up/Down'}">${esc(ctaLabel)}</button>`;
   let hero;
   if(!wide){
     hero=`<section class="sec wrap"><div><div><div class="eyebrow">${icons.spark}${ui('lesson1')}</div><h1>${h1}</h1><p class="muted" style="margin-top:10px;font-size:15px">${esc(t.sub)}</p>
-    <div style="margin-top:16px">${ctaBtn}</div>${ring}</div>
+    <div class="lbtns" style="margin-top:16px">${ctaBtn}${signBtn('hero','secondary')}</div>${ring}</div>
     <div style="margin-top:20px">${demo}</div></div></section>`;
   } else {
     /* desktop: trade-room layout — big chart left, order panel right */
@@ -745,7 +746,7 @@ function renderLearn(){
     const locked=L.phase!=='pick';
     hero=`<section class="sec wrap">
       <div class="lhead"><div><div class="eyebrow">${icons.spark}${ui('lesson1')}</div><h1>${h1}</h1><p class="muted" style="margin-top:12px;font-size:17px;max-width:52ch">${esc(t.sub)}</p></div>
-        <div class="lhead-r">${ctaBtn}${ring}</div></div>
+        <div class="lhead-r">${ctaBtn}${signBtn('hero','secondary')}${ring}</div></div>
       <div class="troom" data-demo-box>
         <div class="tpanel">
           <div class="thead"><span class="tava">Au</span><div><div class="ttl">${esc(t.demoAsset)} <span>${t.demoPair}</span></div><div class="tmeta">${esc(t.demoLen)}</div></div><span class="badge live">Live</span></div>
@@ -769,6 +770,7 @@ function renderLearn(){
   const risk=`<section class="sec wrap"><div class="risk">${esc(t.risk)}</div></section>`;
   const bottom=`<section class="sec wrap"><button class="btn brand" ${L.done>0?'data-open-sheet':'data-goto-demo'} data-ev="${L.done>0?'landing_cta_clicked {track:learn, position:bottom} → signup':'lesson_started {n:1} → scroll to Up/Down'}">${esc(ctaLabel)}</button></section>`;
   return `<div class="land ${wide?'wide':''}" data-track="learn" data-ev-root="landing_viewed {track:learn, lang:${S.lang}}">${header('learn')}${hero}${course}${cmp}${terms}${risk}${faq(t.faq)}${bottom}${footer('learn')}
+    <div class="sticky lsticky">${signBtn('sticky','brand')}</div>
     ${L.sheet?sheet('learn',t.sheetTitle,t.sheetCap,t.input,t.sheetBtn,'hero'):''}</div>`;
 }
 
