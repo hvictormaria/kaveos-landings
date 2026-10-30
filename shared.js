@@ -980,7 +980,10 @@ frame.addEventListener('click',e=>{
   if(b.hasAttribute('data-lang-toggle')){ const ls=(GEO[S.geo]||GEO.en).langs; S.lang=ls[(ls.indexOf(S.lang)+1)%ls.length]; try{ const u=new URL(location.href); u.searchParams.set('lang',S.lang); history.replaceState(null,'',u); document.documentElement.lang=S.lang; }catch(e){} render(true); return; }
   if(b.hasAttribute('data-help')){ ev('landing_help_clicked',{track:S.track}); const u=helpUrl(); if(/^mailto:/i.test(u)) location.href=u; else window.open(u,'_blank','noopener'); return; }
   if(b.hasAttribute('data-close')){ S[S.track].sheet=false; S[S.track].share=false; render(true); return; }
-  if(b.hasAttribute('data-open-sheet')){ ev('landing_cta_clicked',{track:S.track,position:(b.dataset.ev.match(/position:(\w+)/)||[])[1]}); S[S.track].sheet=true; render(true); return; }
+  if(b.hasAttribute('data-open-sheet')){ const pos=(b.dataset.ev.match(/position:(\w+)/)||[])[1]; ev('landing_cta_clicked',{track:S.track,position:pos});
+    // Trading tracks (trade, learn): no email sheet — straight to kaveos.com registration (2026-10-30). Branded tracks keep the sheet.
+    if(S.track==='trader'||S.track==='learn'){ const u=new URL(signupUrl()); const em=savedContact(); if(em&&validEmail(em)) u.searchParams.set('email',em); b.disabled=true; setTimeout(()=>{ location.href=u.toString(); },250); return; }
+    S[S.track].sheet=true; render(true); return; }
   if(b.hasAttribute('data-reg')){ return; } /* handled by the submit listener below */
   if(b.dataset.tab){ S.game.tab=b.dataset.tab; render(true); return; }
   if(b.dataset.ans){ // game hero
