@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Trade 60 detik, payout hingga 80%.">
+<meta property="og:title" content="Trade like a pro">
+<meta property="og:description" content="Trade 60 detik, payout hingga 80%.">
+<meta name="theme-color" content="#070707">
+<link rel="icon" href="/favicon-plain.svg" type="image/svg+xml">
+<title>Trade like a pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Unbounded:wght@700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0}
+
+:root{
+  --page:#070707; --surface:#1e1e1e; --elevated:#272727; --border:#343434; --subtle:#272727;
+  --fg:#ffffff; --muted:#878787; --brand:#8a05ff; --yes:#00b112; --no:#ec221f;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --num:"Space Grotesk",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--page)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2{font-weight:800;letter-spacing:-.025em;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,9vw,46px);line-height:1.05}
+
+.pro{display:inline-flex;align-items:center;gap:.12em;height:1.3em;padding:0 .24em 0 .3em;margin-left:.06em;border-radius:.4em;vertical-align:-.1em;
+  font:700 .8em/1 "Unbounded","Manrope",sans-serif;letter-spacing:-.01em;color:#fff;
+  background:url("data:image/svg+xml;utf8,<svg viewBox='0 0 67 24' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect width='100%' height='100%' fill='url(%23g)'/><defs><radialGradient id='g' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(5.3459 1.092 -3.0796 1.9261 6.7704 6.778)'><stop stop-color='rgb(110,124,251)' offset='0.076'/><stop stop-color='rgb(145,109,252)' offset='0.145'/><stop stop-color='rgb(180,95,253)' offset='0.214'/><stop stop-color='rgb(251,66,255)' offset='0.351'/><stop stop-color='rgb(255,66,247)' offset='0.635'/><stop stop-color='rgb(208,79,249)' offset='0.726'/><stop stop-color='rgb(160,92,251)' offset='0.817'/><stop stop-color='rgb(113,106,253)' offset='0.909'/><stop stop-color='rgb(66,119,255)' offset='1'/></radialGradient></defs></svg>") center/100% 100% no-repeat;
+  box-shadow:0 8px 28px rgba(232,70,236,.35)}
+.pro svg{width:.9em;height:.9em;flex:0 0 auto;fill:#fff}
+h2{font-size:clamp(26px,7vw,36px);line-height:1.1}
+p{margin:0}
+.brand{color:var(--brand)}
+.sec{padding-block:52px;text-align:center}
+.paysec{padding-block:44px 0}
+.paysec .lead{margin-top:8px}
+.lead{color:#bdbdbd;font-size:17px;margin-top:12px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(7,7,7,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--subtle)}
+.top .wrap{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding-block:12px}
+.logo{font-weight:800;font-size:24px;letter-spacing:-.03em;margin-right:auto}
+.btn-o{border:0;background:var(--brand);color:#fff;border-radius:12px;padding:9px 16px;font-weight:600;font-size:15px}
+.lang{height:38px;padding:0 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;font:500 13px var(--num);color:#d0d0d0}
+
+.cta{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;border:0;border-radius:16px;background:var(--brand);color:#fff;font:700 18px/1 var(--body);cursor:pointer;box-shadow:0 10px 32px rgba(138,5,255,.35)}
+.cta:focus-visible,.btn-o:focus-visible,.ud button:focus-visible{outline:3px solid #c48bff;outline-offset:3px}
+
+
+.hero{position:relative;overflow:hidden;padding-block:28px 34px;text-align:center;background:radial-gradient(90% 60% at 50% 0%,#2a0752 0%,rgba(42,7,82,0) 70%)}
+.shots{position:relative;margin:34px auto 40px}
+.shot{border-radius:16px;overflow:hidden;border:1px solid #2b1a44;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.shot.chart{width:100%}
+.shot.order{position:absolute;right:-6px;bottom:-22px;width:44%;border-color:var(--border);box-shadow:0 18px 40px rgba(0,0,0,.7)}
+.shot.hdr{position:absolute;left:-6px;top:-14px;width:46%;border-color:var(--border)}
+.hero .lead{margin-top:0}
+.hero .cta{margin-top:22px}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{display:flex;align-items:center;gap:12px;min-height:80px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--subtle);text-align:left;font-weight:600;font-size:15px;line-height:1.3}
+.tile svg{flex:0 0 26px;width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile small{display:block;color:var(--muted);font-weight:500;font-size:12.5px;margin-top:2px}
+
+
+.demo{margin-top:28px;border-radius:24px;padding:20px 16px;text-align:left;background:linear-gradient(180deg,#1a0633,#0d0418);border:1px solid #2b1a44}
+.demo .eb{font:500 13px var(--num);color:#c48bff;text-transform:uppercase;letter-spacing:.06em}
+.demo h2{font-size:24px;margin-top:6px}
+.demo .lead{font-size:15px;margin-top:6px}
+.qrow{display:flex;align-items:flex-start;gap:22px;margin-top:16px;font-size:14px}
+.qrow span{color:var(--muted)}
+.qrow b{display:block;color:#fff;font:500 16px var(--num)}
+.qrow .chg{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:rgba(0,177,18,.2);color:var(--yes);font:500 13px var(--num)}
+.qrow .chg.neg{background:rgba(236,34,31,.2);color:var(--no)}
+.timer{margin-left:auto;display:flex;align-items:center;gap:4px;font:500 16px var(--num)}
+.timer i{font-style:normal;border:1px solid var(--border);border-radius:8px;padding:2px 6px;background:#120a1f}
+.demo canvas{display:block;width:100%;height:170px;margin-top:8px}
+.ud{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ud button{min-height:52px;border:0;border-radius:14px;font:600 17px var(--body);color:#fff;cursor:pointer}
+.ud .u{background:var(--yes)}.ud .d{background:var(--no)}
+.ud button:disabled{opacity:.45;cursor:default}
+.dres{min-height:24px;margin-top:12px;font-weight:700;font-size:15px}
+.dres.win{color:var(--yes);animation:pop .55s cubic-bezier(.2,1.6,.4,1)}
+.demo{position:relative}
+.demo.won{animation:glow 1.6s ease-out}
+.boom{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.4);font:800 clamp(56px,18vw,88px)/1 var(--num);color:var(--yes);text-shadow:0 0 24px rgba(0,177,18,.8),0 0 60px rgba(0,177,18,.5);pointer-events:none;opacity:0;z-index:3;white-space:nowrap}
+.boom.go{animation:boom 1.9s cubic-bezier(.2,1.4,.3,1) forwards}
+.fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes glow{0%{box-shadow:0 0 0 0 rgba(0,177,18,.0);border-color:#2b1a44}15%{box-shadow:0 0 0 4px rgba(0,177,18,.9),0 0 80px 10px rgba(0,177,18,.55);border-color:var(--yes)}100%{box-shadow:0 0 0 0 rgba(0,177,18,0);border-color:#2b1a44}}
+@keyframes boom{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-8deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(3deg)}30%{transform:translate(-50%,-50%) scale(1) rotate(0)}75%{opacity:1;transform:translate(-50%,-70%) scale(1)}100%{opacity:0;transform:translate(-50%,-110%) scale(.9)}}
+.demo .cta{margin-top:6px}
+.demo .note{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
+
+.status{margin-top:26px;overflow-x:auto;border-radius:16px}
+.status img{min-width:520px;width:100%}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px}
+.chips{max-width:520px;margin-inline:auto}
+.chips span{flex:0 0 calc((100% - 16px)/3);height:50px;padding:0 10px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;gap:6px;font:700 13px/1.1 var(--body);color:#141414;min-width:0}
+.chips[data-n="4"]{max-width:380px}.chips[data-n="4"] span{flex-basis:calc((100% - 8px)/2)}
+.chips img{max-height:24px;max-width:100%;object-fit:contain}
+.chips img.ic{height:24px;width:24px;flex:0 0 24px}
+.chips svg{width:22px;height:22px;flex:0 0 22px;stroke:#141414;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-top:22px;scrollbar-width:none}
+.car::-webkit-scrollbar{display:none}
+.slide{flex:0 0 74%;max-width:300px;scroll-snap-align:center;text-align:center}
+.slide .shot{border-radius:28px;border:6px solid #1b1b1b}
+.slide h3{font-size:17px;margin:14px 0 0;font-weight:700}
+.slide p{color:var(--muted);font-size:14px;margin-top:4px}
+.dots{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#3a3a3a}.dots i.on{background:var(--brand)}
+
+.risk{color:#7d7d7d;font-size:12.5px;line-height:1.55;text-align:left;padding-block:28px 120px;border-top:1px solid var(--subtle)}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:9;background:rgba(7,7,7,.95);backdrop-filter:blur(10px);border-top:1px solid var(--subtle);
+  padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.bar .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:16px;align-items:center}
+.bar .lk{display:flex;flex-direction:column;align-items:center;gap:2px;font:600 12px var(--body);color:#e6e6e6;background:none;border:0;cursor:pointer}
+.bar .lk svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bar .cta{min-height:48px;font-size:17px;border-radius:14px}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+<script src="/config.js"></script>
+<script src="/tags.js" data-track="pro"></script>
+</head>
+<body data-track="pro">
+<main>
+<section class="hero"><div class="wrap">
+  <h1 data-t="h1"></h1>
+  <div class="shots">
+    <img class="shot hdr" src="/assets/pro/w-header.webp" alt="" width="310" height="64">
+    <img class="shot chart" src="/assets/pro/chart.webp" alt="" width="1000" height="426">
+    <img class="shot order" src="/assets/pro/order.webp" alt="" width="376" height="245">
+  </div>
+  <p class="lead" data-t="sub"></p>
+  <a class="cta" href="#" data-signup="hero" data-t="cta1"></a>
+</div></section>
+
+<div class="wrap">
+  <div class="tiles">
+    <div class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-t="t1"></span></div>
+    <div class="tile"><svg viewBox="0 0 24 24"><path d="M4 17l5-5 4 4 7-8"/><path d="M14 8h6v6"/></svg><span data-t="t2"></span></div>
+    <div class="tile"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg><span data-t="t3"></span></div>
+    <div class="tile"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-t="t4"></span></div>
+  </div>
+
+  <section class="demo" aria-labelledby="demo-h">
+    <div class="eb" data-t="deb"></div>
+    <h2 id="demo-h" data-t="dh"></h2>
+    <p class="lead" data-t="dsub"></p>
+    <div class="qrow">
+      <div><span data-t="entry"></span><b data-entry>—</b></div>
+      <div><span data-t="current"></span><b><span data-cur>1.08524</span><span class="chg" data-chg hidden></span></b></div>
+      <div class="timer" aria-label="timer"><i data-mm>00</i>:<i data-ss>03</i></div>
+    </div>
+    <canvas data-demo></canvas>
+    <div class="boom" data-boom aria-hidden="true">+80%</div>
+    <div class="ud"><button class="u" data-dir="up" id="bt-up" data-t="up"></button><button class="d" data-dir="down" id="bt-down" data-t="down"></button></div>
+    <div class="dres" data-res aria-live="polite"></div>
+    <a class="cta" href="#" data-signup="demo" data-t="cta2"></a>
+    <p class="note" data-t="dnote"></p>
+  </section>
+</div>
+
+<section class="sec paysec" data-paysec><div class="wrap">
+  <h2 data-t="ph"></h2>
+  <p class="lead" data-t="psub"></p>
+  <div class="chips" data-chips></div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2 data-t="sh"></h2>
+  <p class="lead" data-t="ssub"></p>
+  <div class="status"><img class="shot" src="/assets/pro/w-status.webp" alt="" width="1012" height="476"></div>
+</div></section>
+
+<section class="sec" style="padding-top:8px"><div class="wrap">
+  <h2 data-t="ch"></h2>
+  <div class="car" data-car>
+    <div class="slide"><img class="shot" src="/assets/pro/m-free.webp" alt="" width="375" height="812"><h3>Free</h3><p data-t="s1"></p></div>
+    <div class="slide"><img class="shot" src="/assets/pro/m-pro.webp" alt="" width="375" height="812"><h3>Pro</h3><p data-t="s2"></p></div>
+    <div class="slide"><img class="shot" src="/assets/pro/m-max.webp" alt="" width="375" height="812"><h3>Max</h3><p data-t="s3"></p></div>
+  </div>
+  <div class="dots" data-dots><i class="on"></i><i></i><i></i></div>
+  <a class="cta" href="#" data-signup="mid" data-t="cta3" style="margin-top:26px"></a>
+</div></section>
+
+<div class="wrap"><p class="risk" data-t="risk"></p></div>
+</main>
+
+<nav class="bar"><div class="in">
+  <a class="cta" href="#" data-signup="sticky" data-t="b3"></a>
+</div></nav>
+
+<script>
+(()=>{
+const LANG=(()=>{const l=new URLSearchParams(location.search).get('lang');return (l==='en'||l==='id'||l==='pt'||l==='es')?l:'id';})();
+const PATH_GEO='id';
+function ev(name,p){p=Object.assign({},p||{});window.dataLayer=window.dataLayer||[];window.dataLayer.push(Object.assign({event:name},p));if(window.posthog&&posthog.capture)try{posthog.capture(name,p);}catch(e){}if(/[?&]debug=1/.test(location.search))console.log('[event]',name,p);}
+const PRO='<span class="pro">PRO<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 0.5999999999999996C5.746 3.54 6.46 4.254 9.4 4.8C6.46 5.346 5.746 6.06 5.2 9.0C4.654 6.06 3.9400000000000004 5.346 1.0 4.8C3.9400000000000004 4.254 4.654 3.54 5.2 0.5999999999999996Z M11.2 6.000000000000001C11.824 9.360000000000001 12.639999999999999 10.176 16.0 10.8C12.639999999999999 11.424000000000001 11.824 12.24 11.2 15.600000000000001C10.575999999999999 12.24 9.76 11.424000000000001 6.3999999999999995 10.8C9.76 10.176 10.575999999999999 9.360000000000001 11.2 6.000000000000001Z"/></svg></span>';
+const T={
+ id:{login:'Daftar',h1:'Trade like a '+PRO,sub:'Emas, kripto dan valas. Trade mulai 60 detik, payout hingga 80%.',cta1:'Daftar sekarang',
+  t1:'Trade 60 detik<small>hasil dalam semenit</small>',t2:'Payout hingga 80%<small>terlihat sebelum trade</small>',t3:'QRIS, DANA, OVO<small>VA bank dan kripto</small>',t4:'Akun demo gratis<small>latihan tanpa risiko</small>',
+  deb:'Coba tanpa daftar',dh:'EUR/USD naik atau turun?',dsub:'Pilih arah, tunggu 3 detik. Ini demo, tidak ada uang yang dipakai.',entry:'Entry',current:'Sekarang',up:'▲ Naik',down:'▼ Turun',cta2:'Trade sungguhan',dnote:'Trade sungguhan bisa untung atau rugi.',
+  wait:s=>`${s} detik lagi`,win:'Tepat! Di akun nyata, arah yang tepat memberi +80% dari jumlah trade.',
+  ph:'Kami bekerja sama dengan pembayaran lokal',psub:'Deposit lewat dompet digital, QRIS, transfer bank atau kripto yang sudah kamu pakai.',
+  sh:'Mulai gratis, naik level kapan saja',ssub:'Free untuk latihan, Pro dan Max untuk trading dengan saldo nyata.',
+  ch:'Naikkan level akunmu, dapatkan cashback lebih besar',s1:'Latihan tanpa risiko, saldo demo tanpa batas',s2:'Payout hingga 80% dan 80+ aset',s3:'Cashback harian 3% dan 130+ aset',cta3:'Mulai trading',
+  risk:'Trading mengandung risiko. Kamu bisa kehilangan sebagian atau seluruh dana yang digunakan dalam trade. Akun demo memakai saldo virtual; hasil demo tidak menjamin hasil di akun nyata. Hanya untuk pengguna berusia 18+.',
+  b1:'Untuk pengguna',b2:'Tentang kami',b3:'Daftar'},
+ en:{login:'Sign up',h1:'Trade like a '+PRO,sub:'Gold, crypto and forex. Trades from 60 seconds, payout up to 80%.',cta1:'Sign up now',
+  t1:'60-second trades<small>result in a minute</small>',t2:'Payout up to 80%<small>shown before you trade</small>',t3:'Local payments<small>e-wallets, bank and crypto</small>',t4:'Free demo account<small>practise with no risk</small>',
+  deb:'Try it, no sign-up',dh:'EUR/USD: up or down?',dsub:'Pick a direction and wait 3 seconds. It is a demo, no money involved.',entry:'Entry',current:'Current',up:'▲ Up',down:'▼ Down',cta2:'Trade for real',dnote:'Real trades can win or lose.',
+  wait:s=>`${s} s left`,win:'Right call! On a real account, a correct direction pays +80% of the trade amount.',
+  ph:'We work with local payment methods',psub:'Deposit with the wallets, banks and crypto you already use.',
+  sh:'Start free, level up any time',ssub:'Free to practise, Pro and Max to trade with a real balance.',
+  ch:'Level up your account, get more cashback',s1:'Practise with no risk and an unlimited demo balance',s2:'Payouts up to 80% and 80+ assets',s3:'3% daily cashback and 130+ assets',cta3:'Start trading',
+  risk:'Trading involves risk. You can lose part or all of the money used in a trade. The demo account uses a virtual balance; demo results do not guarantee results on a real account. For users aged 18+ only.',
+  b1:'For traders',b2:'About us',b3:'Sign up'},
+ pt:{login:'Cadastre-se',h1:'Trade like a '+PRO,sub:'Ouro, cripto e forex. Operações a partir de 60 segundos, retorno de até 80%.',cta1:'Cadastre-se agora',
+  t1:'Operações de 60 segundos<small>resultado em um minuto</small>',t2:'Retorno de até 80%<small>visível antes de operar</small>',t3:'Pix<small>depósito instantâneo</small>',t4:'Conta demo grátis<small>pratique sem risco</small>',
+  deb:'Teste sem cadastro',dh:'EUR/USD: sobe ou desce?',dsub:'Escolha a direção e espere 3 segundos. É uma demo, nenhum dinheiro é usado.',entry:'Entrada',current:'Agora',up:'▲ Sobe',down:'▼ Desce',cta2:'Operar de verdade',dnote:'Operações reais podem ganhar ou perder.',
+  wait:s=>`faltam ${s} s`,win:'Acertou! Na conta real, a direção certa paga +80% do valor da operação.',
+  ph:'Trabalhamos com pagamentos locais',psub:'Deposite com Pix ou cripto, do jeito que você já usa.',
+  sh:'Comece grátis, suba de nível quando quiser',ssub:'Free para praticar, Pro e Max para operar com saldo real.',
+  ch:'Suba o nível da sua conta, ganhe mais cashback',s1:'Pratique sem risco com saldo demo ilimitado',s2:'Retorno de até 80% e mais de 80 ativos',s3:'Cashback diário de 3% e mais de 130 ativos',cta3:'Começar a operar',
+  risk:'Operar envolve risco. Você pode perder parte ou todo o dinheiro usado em uma operação. A conta demo usa saldo virtual; resultados na demo não garantem resultados na conta real. Apenas para maiores de 18 anos.',
+  b1:'Para traders',b2:'Sobre nós',b3:'Cadastre-se'},
+ es:{login:'Regístrate',h1:'Trade like a '+PRO,sub:'Oro, cripto y forex. Operaciones desde 60 segundos, pago de hasta 80%.',cta1:'Regístrate ahora',
+  t1:'Operaciones de 60 segundos<small>resultado en un minuto</small>',t2:'Pago de hasta 80%<small>lo ves antes de operar</small>',t3:'Binance Pay<small>y USDT</small>',t4:'Cuenta demo gratis<small>practica sin riesgo</small>',
+  deb:'Pruébalo sin registro',dh:'EUR/USD: ¿sube o baja?',dsub:'Elige la dirección y espera 3 segundos. Es una demo, no se usa dinero.',entry:'Entrada',current:'Ahora',up:'▲ Sube',down:'▼ Baja',cta2:'Operar de verdad',dnote:'Las operaciones reales pueden ganar o perder.',
+  wait:s=>`faltan ${s} s`,win:'¡Acertaste! En una cuenta real, la dirección correcta paga +80% del monto de la operación.',
+  ph:'Trabajamos con pagos locales y cripto',psub:'Deposita con Binance Pay o USDT, como ya lo haces.',
+  sh:'Empieza gratis, sube de nivel cuando quieras',ssub:'Free para practicar, Pro y Max para operar con saldo real.',
+  ch:'Sube el nivel de tu cuenta, recibe más cashback',s1:'Practica sin riesgo con saldo demo ilimitado',s2:'Pago de hasta 80% y más de 80 activos',s3:'Cashback diario de 3% y más de 130 activos',cta3:'Empezar a operar',
+  risk:'Operar implica riesgo. Puedes perder parte o todo el dinero usado en una operación. La cuenta demo usa saldo virtual; los resultados de la demo no garantizan resultados en una cuenta real. Solo para mayores de 18 años.',
+  b1:'Para traders',b2:'Sobre nosotros',b3:'Regístrate'}}[LANG];
+document.documentElement.lang=LANG;
+document.querySelectorAll('[data-t]').forEach(el=>{el.innerHTML=T[el.dataset.t];});
+
+const PAY={"id": {"items": [{"img": "/assets/pro/pay/qris.svg", "name": "QRIS"}, {"img": "/assets/pro/pay/dana.svg", "name": "DANA"}, {"img": "/assets/pro/pay/ovo-alt.svg", "name": "OVO"}, {"img": "/assets/pro/pay/shopee-pay.svg", "name": "ShopeePay"}, {"img": "/assets/pro/pay/bca.svg", "name": "BCA"}, {"img": "/assets/pro/pay/bri.svg", "name": "BRI"}, {"img": "/assets/pro/pay/mandiri.svg", "name": "Mandiri"}, {"img": "/assets/pro/pay/bni.svg", "name": "BNI"}, {"img": "/assets/pro/pay/binance.svg", "name": "Binance Pay", "label": 1}]}, "my": {"items": [{"img": "/assets/pro/pay/tng.png", "name": "Touch 'n Go", "label": 1}, {"img": "/assets/pro/pay/maybank.svg", "name": "Maybank", "h": 40}, {"img": "/assets/pro/pay/duitnow-qr.svg", "name": "DuitNow QR", "h": 40}, {"img": "/assets/pro/pay/binance.svg", "name": "Binance Pay", "label": 1}], "tile": {"en": "Touch 'n Go, Maybank<small>DuitNow QR and crypto</small>"}}, "ng": {"items": [{"img": "/assets/pro/pay/opay.png", "name": "OPay", "label": 1}, {"img": "/assets/pro/pay/palmpay.png", "name": "PalmPay", "label": 1}, {"name": "Bank transfer", "label": 1}, {"img": "/assets/pro/pay/binance.svg", "name": "Binance Pay", "label": 1}], "tile": {"en": "OPay, PalmPay<small>bank transfer and crypto</small>"}}, "br": {"items": [{"img": "/assets/pro/pay/pix.svg", "name": "Pix", "label": 1}, {"img": "/assets/pro/pay/binance.svg", "name": "Binance Pay", "label": 1}], "tile": {"en": "Pix and crypto<small>instant deposits</small>", "pt": "Pix e cripto<small>dep\u00f3sito instant\u00e2neo</small>"}}, "ve": {"items": [{"img": "/assets/pro/pay/binance.svg", "name": "Binance Pay", "label": 1}, {"img": "/assets/pro/pay/tether.svg", "name": "USDT", "label": 1}], "tile": {"en": "Binance Pay<small>and USDT</small>", "es": "Binance Pay<small>y USDT</small>"}}};
+const TZ={'Asia/Jakarta':'id','Asia/Pontianak':'id','Asia/Makassar':'id','Asia/Jayapura':'id','Asia/Kuala_Lumpur':'my','Asia/Kuching':'my','Africa/Lagos':'ng','America/Sao_Paulo':'br','America/Bahia':'br','America/Fortaleza':'br','America/Recife':'br','America/Manaus':'br','America/Belem':'br','America/Caracas':'ve','Asia/Manila':'ph','America/Mexico_City':'mx','America/Monterrey':'mx','America/Tijuana':'mx','America/Cancun':'mx'};
+let GEO=(new URLSearchParams(location.search).get('geo')||'').toLowerCase();
+if(!GEO) GEO=PATH_GEO;
+if(!GEO){try{GEO=TZ[Intl.DateTimeFormat().resolvedOptions().timeZone]||'';}catch(e){}}
+if(!GEO) GEO=LANG==='id'?'id':'';
+const BANK='<svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg>';
+const pay=PAY[GEO];
+if(pay){document.querySelector('[data-chips]').dataset.n=pay.items.length;document.querySelector('[data-chips]').innerHTML=pay.items.map(i=>`<span>${i.img?`<img${i.label?' class="ic"':''}${i.h?` style="max-height:${i.h}px"`:''} src="${i.img}" alt="${i.label?'':i.name}">`:BANK}${i.label?i.name:''}</span>`).join('');
+  if(pay.tile&&pay.tile[LANG]) document.querySelector('[data-t="t3"]').innerHTML=pay.tile[LANG];}
+else document.querySelector('[data-paysec]').hidden=true;
+
+
+const CFG=window.LANDING_CONFIG||null;
+const SIGNUP=(CFG&&CFG.tracks&&CFG.tracks.pro&&CFG.tracks.pro.signup)||'https://kaveos.com/auth?continueByUrl=%2Fmarkets&room=classic#SignUp';
+const PIX=(CFG&&CFG.tracking&&CFG.tracking.unbranded&&CFG.tracking.unbranded.meta)||'';
+function metaIds(){const o={};try{const q=new URLSearchParams(location.search);let id=q.get('fbclid'),ts=Date.now();
+  if(id){try{localStorage.setItem('kv_fbclid',JSON.stringify({id,ts}));}catch(e){}}
+  else{try{const sv=JSON.parse(localStorage.getItem('kv_fbclid')||'null');if(sv&&sv.id&&Date.now()-sv.ts<90*864e5){id=sv.id;ts=sv.ts;}}catch(e){}}
+  const ck=n=>{const m=document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'));return m?decodeURIComponent(m[1]):'';};
+  if(id)o.fbclid=id;const fbc=ck('_fbc')||(id?'fb.1.'+ts+'.'+id:'');if(fbc)o.fbc=fbc;const fbp=ck('_fbp');if(fbp)o.fbp=fbp;}catch(e){}return o;}
+function signupUrl(pos){const u=new URL(SIGNUP);const q=new URLSearchParams(location.search);
+  for(const [k,v] of q) if(!/^(track|lang|geo|email|contact|pix|room|pos|continueByUrl|ph_did|fbclid|fbc|fbp|claude_check|debug)$/.test(k)&&v!==''&&k.length<=64) u.searchParams.set(k,v.slice(0,500));
+  for(const [k,v] of Object.entries(metaIds())) u.searchParams.set(k,v);
+  u.searchParams.set('track','pro');u.searchParams.set('lang',LANG);u.searchParams.set('geo',GEO||'intl');u.searchParams.set('pos',pos);
+  const did=phDid();if(did) u.searchParams.set('ph_did',did);
+  if(PIX) u.searchParams.set('pix',PIX);return u.toString();}
+function phDid(){try{const d=window.posthog&&posthog.get_distinct_id&&posthog.get_distinct_id();if(d)return d;const m=document.cookie.match(/(?:^|; )ph_phc_[^=]*_posthog=([^;]*)/);return m?(JSON.parse(decodeURIComponent(m[1])).distinct_id||''):'';}catch(e){return '';}}
+document.querySelectorAll('[data-signup]').forEach(a=>{a.href=signupUrl(a.dataset.signup);
+  a.addEventListener('click',e=>{const url=signupUrl(a.dataset.signup);a.href=url;ev('landing_cta_clicked',{track:'pro',position:a.dataset.signup,lang:LANG,geo:GEO});
+    if(CFG){e.preventDefault();setTimeout(()=>{location.href=url;},250);}});});
+ev('landing_viewed',{track:'pro',lang:LANG,geo:GEO});
+
+
+function euphoria(){
+  const card=document.querySelector('.demo'),boom=document.querySelector('[data-boom]');
+  card.classList.remove('won');boom.classList.remove('go');void card.offsetWidth;card.classList.add('won');boom.classList.add('go');
+  try{navigator.vibrate&&navigator.vibrate([30,40,60]);}catch(e){}
+  if(reduce) return;
+  const cv=document.createElement('canvas');cv.className='fx';document.body.appendChild(cv);
+  const dpr=Math.min(2,devicePixelRatio||1),W=innerWidth,H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;const x=cv.getContext('2d');x.scale(dpr,dpr);
+  const r=card.getBoundingClientRect(),cx=r.left+r.width/2,cy=Math.max(80,Math.min(H-80,r.top+r.height*.45));
+  const C=['#8a05ff','#c48bff','#00b112','#5cff6e','#ffffff','#ffd23f','#ff4fd8'];const P=[];
+  const add=(x0,y0,ang,spread,sp,n)=>{for(let i=0;i<n;i++){const a=ang+(Math.random()-.5)*spread,v=sp*(.45+Math.random()*.75);P.push({x:x0,y:y0,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*7,h:3+Math.random()*5,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:C[i%C.length],s:Math.random()<.25,t:0,life:110+Math.random()*70});}};
+  add(cx,cy,-Math.PI/2,Math.PI*2,15,170);
+  setTimeout(()=>{add(0,H*.75,-Math.PI/3,.7,20,80);add(W,H*.75,-Math.PI*2/3,.7,20,80);},180);
+  setTimeout(()=>add(cx,cy-40,-Math.PI/2,Math.PI*.9,13,90),520);
+  let f=0;(function tick(){x.clearRect(0,0,W,H);f++;
+    for(const p of P){p.t++;p.vy+=.32;p.vx*=.985;p.vy*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;const al=Math.max(0,1-p.t/p.life);if(!al)continue;
+      x.globalAlpha=al;x.fillStyle=p.c;x.save();x.translate(p.x,p.y);x.rotate(p.r);
+      if(p.s){x.beginPath();x.arc(0,0,p.w/2.4,0,7);x.fill();}else{x.scale(1,Math.cos(p.t*.18));x.fillRect(-p.w/2,-p.h/2,p.w,p.h);}x.restore();}
+    if(f<240&&P.some(p=>p.t<p.life))requestAnimationFrame(tick);else cv.remove();})();
+}
+
+
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function series(n,seed){let s=seed,v=0,m=0;const out=[];for(let i=0;i<n;i++){s=(s*9301+49297)%233280;const r=s/233280;m=m*.75+(r-.5)*.9;v+=m;out.push(v);}return out;}
+let D=series(40,21),phase='pick',entry=null,dir=null,timer=null;
+const c=document.querySelector('[data-demo]'),cur=document.querySelector('[data-cur]'),en=document.querySelector('[data-entry]'),chg=document.querySelector('[data-chg]'),res=document.querySelector('[data-res]'),ss=document.querySelector('[data-ss]'),btns=[...document.querySelectorAll('.ud button')];
+const price=v=>(1.08524+v*.00009);const fmt=v=>price(v).toFixed(5);
+function draw(){const dpr=Math.min(2,devicePixelRatio||1),w=c.clientWidth,h=c.clientHeight;if(!w)return;c.width=w*dpr;c.height=h*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);
+  const lo=Math.min(...D,entry??Infinity)-1,hi=Math.max(...D,entry??-Infinity)+1,W=w*.86,X=i=>i/(D.length-1)*W,Y=v=>8+(1-(v-lo)/(hi-lo))*(h-16);
+  x.strokeStyle='rgba(255,255,255,.07)';x.lineWidth=1;for(let g=0;g<5;g++){const gy=8+(h-16)*g/4;x.beginPath();x.moveTo(0,gy);x.lineTo(w,gy);x.stroke();}
+  const gr=x.createLinearGradient(0,0,0,h);gr.addColorStop(0,'rgba(196,139,255,.28)');gr.addColorStop(1,'rgba(196,139,255,0)');
+  x.beginPath();D.forEach((v,i)=>i?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v)));x.lineTo(W,h);x.lineTo(0,h);x.closePath();x.fillStyle=gr;x.fill();
+  x.beginPath();D.forEach((v,i)=>i?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v)));x.strokeStyle='#fff';x.lineWidth=2;x.stroke();
+  if(entry!=null){const ey=Y(entry);x.setLineDash([5,5]);x.strokeStyle='rgba(255,255,255,.45)';x.beginPath();x.moveTo(0,ey);x.lineTo(w,ey);x.stroke();x.setLineDash([]);
+    x.fillStyle='#878787';x.beginPath();x.roundRect(w-48,ey-10,46,20,4);x.fill();x.fillStyle='#fff';x.font='500 11px Manrope,sans-serif';x.fillText('Entry',w-42,ey+4);}
+  const lx=X(D.length-1),ly=Y(D[D.length-1]);x.fillStyle='rgba(255,255,255,.25)';x.beginPath();x.arc(lx,ly,9,0,7);x.fill();x.fillStyle='#fff';x.beginPath();x.arc(lx,ly,5,0,7);x.fill();
+  cur.textContent=fmt(D[D.length-1]);
+  if(entry!=null){const d=price(D[D.length-1])-price(entry);chg.hidden=false;chg.className='chg'+(d<0?' neg':'');chg.textContent=(d>=0?'▲ ':'▼ ')+Math.abs(d).toFixed(5);}else chg.hidden=true;}
+btns.forEach(b=>b.addEventListener('click',()=>{if(phase!=='pick')return;phase='wait';dir=b.dataset.dir;ev('demo_trade_placed',{track:'pro',dir,lang:LANG,geo:GEO});entry=D[D.length-1];en.textContent=fmt(entry);btns.forEach(x=>x.disabled=true);let left=3;res.className='dres';res.textContent=T.wait(left);ss.textContent='03';
+  timer=setInterval(()=>{left--;const sign=dir==='up'?1:-1;D=D.slice(1);D.push(D[D.length-1]+sign*(0.3+Math.random()*.5));ss.textContent='0'+left;draw();
+    if(left<=0){clearInterval(timer);phase='pick';res.className='dres';void res.offsetWidth;res.className='dres win';res.textContent=T.win;euphoria();ev('demo_trade_closed',{track:'pro',dir,result:'win',lang:LANG,geo:GEO});btns.forEach(x=>x.disabled=false);setTimeout(()=>{entry=null;en.textContent='—';ss.textContent='03';draw();},2500);}
+    else res.textContent=T.wait(left);},1000);}));
+if(!reduce) setInterval(()=>{if(phase!=='pick')return;D=D.slice(1);D.push(D[D.length-1]+(Math.random()-.5)*.7);draw();},1500);
+addEventListener('resize',draw);draw();
+
+const car=document.querySelector('[data-car]'),dots=[...document.querySelectorAll('[data-dots] i')];
+car.addEventListener('scroll',()=>{const i=Math.round(car.scrollLeft/(car.scrollWidth-car.clientWidth||1)*(dots.length-1));dots.forEach((d,k)=>d.classList.toggle('on',k===i));},{passive:true});
+})();
+</script>
+
+</body>
+</html>
